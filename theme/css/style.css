@@ -17,6 +17,14 @@ header, main, footer {
 	background: var(--background-main);
 }
 
+header nav {
+	display: inline-block;
+}
+
+header .subtitle {
+	margin-right: 50px;
+}
+
 a, a:visited {
 	color: #006090;
 	text-decoration: none;
