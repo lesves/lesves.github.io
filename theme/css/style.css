@@ -22,14 +22,17 @@ a, a:visited {
 	text-decoration: none;
 }
 
-h1, h2 {
-	/*font-family: "Open Sans", sans-serif;*/
-}
-
 h1 a, h2 a, h1 a:visited, h2 a:visited {
 	color: #000000;
 }
 
 nav a, nav a:visited {
 	margin-right: 10px;
+}
+
+.tag, .tag:visited {
+	padding: 0 5px 0 5px;
+	border-radius: 5px;
+	color: #d4af37;
+	background: #222222;
 }
