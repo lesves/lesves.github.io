@@ -4,7 +4,11 @@
 }
 
 :root {
-	--background-main: #ffffff;
+	--main-background: #ffffff;
+	--link: #006090;
+	--title: #000000;
+	--tag-background: #222222;
+	--tag-color: #d4af37;
 }
 
 body {
@@ -14,7 +18,7 @@ body {
 header, main, footer {
 	max-width: 800px;
 	margin: 20px auto;
-	background: var(--background-main);
+	background: var(--main-background);
 }
 
 header nav {
@@ -26,12 +30,12 @@ header .subtitle {
 }
 
 a, a:visited {
-	color: #006090;
+	color: var(--link);
 	text-decoration: none;
 }
 
 h1 a, h2 a, h1 a:visited, h2 a:visited {
-	color: #000000;
+	color: var(--title);
 }
 
 nav a, nav a:visited {
@@ -41,6 +45,6 @@ nav a, nav a:visited {
 .tag, .tag:visited {
 	padding: 0 5px 0 5px;
 	border-radius: 5px;
-	color: #d4af37;
-	background: #222222;
+	color: var(--tag-color);
+	background: var(--tag-background);
 }
