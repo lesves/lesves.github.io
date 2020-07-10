@@ -1,0 +1,29 @@
+.letter {
+	margin: 3px;
+}
+
+.key {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 1px;
+	width: 10px;
+}
+
+.key:hover {
+	background: grey;
+}
+
+.key.guessed {
+	background: black;
+}
+
+.button {
+	display: inline-block;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+#content {
+	width: 200px;
+	margin: 0 auto;
+}
