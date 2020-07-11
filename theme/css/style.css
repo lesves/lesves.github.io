@@ -1,50 +1,161 @@
-@font-face {
-  font-family: "Computer Modern";
-  src: url("../fonts/cmunrm.otf");
-}
+/* Variables */
 
 :root {
-	--main-background: #ffffff;
+	--main-background: #fffff8;
+	--text-color: #101010;
 	--link: #006090;
 	--title: #000000;
 	--tag-background: #222222;
 	--tag-color: #d4af37;
+	--content-width: 60%;
+	--toc-width: 20%;
 }
+
+/* Dark theme */
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--main-background: #2d2d2d;
+		--text-color: #c4c8cc;
+		--link: #3ca4ff;
+		--title: #ffffff;
+		--tag-background: #d4af37;
+		--tag-color: #222222;
+	}
+}
+
+/* Font and text */
 
 body {
-	font-family: "Computer Modern";
-}
-
-header, main, footer {
-	max-width: 800px;
-	margin: 20px auto;
+	font-family: "Computer Modern Serif";
+	color: var(--text-color);
 	background: var(--main-background);
 }
 
-header nav {
-	display: inline-block;
+/* Layout */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+header, main, footer {
+	max-width: 1400px;
+	margin: 0;
+	/*margin: 20px auto;*/
+	padding-left: var(--toc-width);
+	background: var(--main-background);
+}
+
+header {
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--text-color);
 }
 
 header .subtitle {
 	margin-right: 50px;
 }
 
+/* Navigation bar */
+
+header nav {
+	display: inline-block;
+}
+
+header nav .item, header nav .item:visited {
+	margin-right: 10px;
+}
+
+/* Article */
+
+main h1 {
+	font-size: 1.7em;
+}
+
+article {
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+}
+
+article > p {
+	width: var(--content-width);
+	line-height: 1.5em;
+}
+
+main article hr {
+	width: var(--content-width);
+	margin: 0;
+}
+
+/* Links */
+
 a, a:visited {
 	color: var(--link);
 	text-decoration: none;
 }
 
+a[href^='mailto\:']::before {
+  content: '📧 ';
+}
+
 h1 a, h2 a, h1 a:visited, h2 a:visited {
 	color: var(--title);
+	font-weight: bold;
 }
 
-nav a, nav a:visited {
-	margin-right: 10px;
-}
+/* Article tags */
 
 .tag, .tag:visited {
+	display: inline-block;
 	padding: 0 5px 0 5px;
 	border-radius: 5px;
 	color: var(--tag-color);
 	background: var(--tag-background);
+}
+
+/* Table */
+
+table {
+	width: var(--content-width);
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 5px;
+}
+
+thead {
+	border-top: 2px solid var(--text-color);
+	border-bottom: 1px solid var(--text-color);
+}
+
+tbody {
+	border-bottom: 2px solid var(--text-color);
+}
+
+/* Mobile and small screens */
+
+@media (max-width: 760px) {
+	html, body {
+		width: 100%;
+	}
+
+	pre {
+		overflow-x: scroll;
+		max-width: 100%;
+	}
+
+    header, main, footer {
+        width: 100%;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    :root {
+    	--content-width: 100%;
+    }
 }
