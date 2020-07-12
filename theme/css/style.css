@@ -1,24 +1,30 @@
 /* Variables */
 
 :root {
-	--main-background: #fffff8;
+	--primary: #fffff8;
+	--secondary: #f8f8f8;
 	--text-color: #101010;
 	--link: #006090;
-	--title: #000000;
+	--title: var(--text-color);
 	--tag-background: #222222;
 	--tag-color: #d4af37;
-	--content-width: 60%;
-	--toc-width: 20%;
+
+	--sidenote-width: 30vw;
+	--content-width: 50vw;
+	--toc-width: 20vw;
+
+	counter-reset: sidenote-counter;
 }
 
 /* Dark theme */
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--main-background: #2d2d2d;
+		--primary: #2d2d2d;
+		--secondary: #353535;
 		--text-color: #c4c8cc;
 		--link: #3ca4ff;
-		--title: #ffffff;
+		--title: #eeeeee;
 		--tag-background: #d4af37;
 		--tag-color: #222222;
 	}
@@ -29,7 +35,7 @@
 body {
 	font-family: "Computer Modern Serif";
 	color: var(--text-color);
-	background: var(--main-background);
+	background: var(--primary);
 }
 
 /* Layout */
@@ -40,14 +46,15 @@ body {
 
 html {
 	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 
 header, main, footer {
-	max-width: 1400px;
+	width: 100vw;
 	margin: 0;
 	/*margin: 20px auto;*/
 	padding-left: var(--toc-width);
-	background: var(--main-background);
+	background: var(--primary);
 }
 
 header {
@@ -71,24 +78,67 @@ header nav .item, header nav .item:visited {
 
 /* Article */
 
-main h1 {
-	font-size: 1.7em;
-}
-
 article {
 	-webkit-hyphens: auto;
 	-ms-hyphens: auto;
 	hyphens: auto;
 }
 
-article > p {
-	width: var(--content-width);
-	line-height: 1.5em;
+h1, h2, h3, h4, h5, h6 {
+	color: var(--title);
 }
 
-main article hr {
+main h1 {
+	font-size: 1.7em;
+}
+
+article.preview > h3 {
+	margin: 0;
+	margin-top: 5px;
+}
+
+article.preview > summary {
+	margin-bottom: 5px;
+}
+
+/* Viewed article */
+
+article.main h1, 
+article.main h2, 
+article.main h3, 
+article.main h4, 
+article.main h5, 
+article.main h6 {
+	width: var(--content-width);
+	text-align: justify;
+}
+
+article.main hr {
 	width: var(--content-width);
 	margin: 0;
+}
+
+article.main summary {
+	background: var(--secondary);
+	padding: 10px;
+}
+
+article.main img {
+	width: var(--content-width);
+}
+
+article.main > p, article.main > summary, article.main > .info {
+	width: var(--content-width);
+	line-height: 1.5em;
+	text-align: justify;
+}
+
+article.main > .info > .author {
+	float: right;
+}
+
+article.main > .info {
+	margin-bottom: 20px;
 }
 
 /* Links */
@@ -115,6 +165,63 @@ h1 a, h2 a, h1 a:visited, h2 a:visited {
 	border-radius: 5px;
 	color: var(--tag-color);
 	background: var(--tag-background);
+}
+
+/* Sidenotes, marginnotes, footnotes & figures */
+
+@media (min-width: 760px) {
+	.sidenote:before {
+		counter-increment: sidenote-counter;
+		content: counter(sidenote-counter);
+		vertical-align: super;
+		font-size: 0.7em;
+	}
+
+	.sidenote,
+	.marginnote {
+		float: right;
+		clear: right;
+
+		position: relative;
+		left: 5%;
+		padding: 10px 10% 10px 5%;
+
+		margin-right: -60%;
+		width: var(--sidenote-width);
+
+		font-size: 0.9rem;
+		vertical-align: baseline;
+		text-align: justify;
+
+		background: var(--secondary);
+	}
+
+	.footnote-ref:before {
+		content: "[";
+	}
+	.footnote-ref:after {
+		content: "]";
+	}
+
+	figure {
+		float: right;
+		clear: right;
+
+		padding: 0 2.5% 0 5%;
+
+		margin: 0;
+		width: var(--sidenote-width);
+
+		vertical-align: baseline;
+	}
+}
+
+figcaption {
+	text-align: center;
+}
+
+article.main figure img {
+	width: 100%;
 }
 
 /* Table */
@@ -144,18 +251,36 @@ tbody {
 		width: 100%;
 	}
 
+	:root {
+    	--content-width: 100%;
+    	--sidenote-width: 0;
+    	--toc-width: 0;
+    }
+
 	pre {
 		overflow-x: scroll;
 		max-width: 100%;
 	}
 
-    header, main, footer {
-        width: 100%;
-        padding-left: 10%;
-        padding-right: 10%;
-    }
+	header, main, footer {
+		padding-left: 10%;
+		padding-right: 10%;
+	}
 
-    :root {
-    	--content-width: 100%;
+	.footnote-ref {
+		display: none;
+	}
+
+	.sidenote:before, .footnote:before {
+		content: "Note: ";
+	}
+
+    .sidenote, .footnote, figure {
+		display: block;
+		padding: 5px;
+		margin: 0;
+
+		background: var(--secondary);
+		width: var(--content-width);
     }
 }
