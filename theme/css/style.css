@@ -97,10 +97,6 @@ article.preview > h3 {
 	margin-top: 5px;
 }
 
-article.preview > summary {
-	margin-bottom: 5px;
-}
-
 /* Viewed article */
 
 article.main h1, 
@@ -277,7 +273,7 @@ tbody {
 
     .sidenote, .footnote, figure {
 		display: block;
-		padding: 5px;
+		padding: 10px;
 		margin: 0;
 
 		background: var(--secondary);
