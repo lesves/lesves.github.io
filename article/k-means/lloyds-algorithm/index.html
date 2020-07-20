@@ -73,7 +73,10 @@
 </ul>
 </li>
 <li><a href="#applying-it">Applying it</a><ul>
-<li><a href="#color-reduction">Color reduction</a></li>
+<li><a href="#color-reduction">Color reduction</a><ul>
+<li><a href="#andy-warhol-inspired-pictures">Andy Warhol inspired pictures</a></li>
+</ul>
+</li>
 <li><a href="#classifying-handwritten-digits">Classifying handwritten digits</a></li>
 </ul>
 </li>
@@ -252,8 +255,7 @@
 <p><img alt="svg" src="output_15_0.svg" /></p>
 <hr />
 <h3 id="animation">Animation</h3>
-<p>Now let&#8217;s create an animation of the training process. This time we will just use uniformly distributed random points.
-<span class="marginnote">One interesting observation about running k-means on random points is that you can see the underlying Voronoi diagram arise.</span></p>
+<p>Now let&#8217;s create an animation of the training process. This time we will just use uniformly distributed random points.<span class="sidenote-wrapper"><sup>3</sup><span class="sidenote" id="sn:3">One interesting observation about running k-means on random points is that you can see the underlying Voronoi diagram arise.</span></span></p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="kn">import</span> <span class="n">FuncAnimation</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
@@ -804,8 +806,10 @@ dG9vAAAAHWRhdGEAAAABAAAAAExhdmY1OC4yOS4xMDA=
 </pre></div>
 
 
-<p><img alt="Original image" src="photo.jpg" />
-Every pixel can be represented as a 3-dimensional vector. The goal is to cluster them, so we find the optimal colors to use, which will be the centroids. Thus, the number of clusters, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>, will be equal to the number of reduced colors.</p>
+<div class="portrait">
+<p><img alt="Original image" src="photo.jpg" /></p>
+</div>
+<p>Every pixel can be represented as a 3-dimensional vector. The goal is to cluster them, so we find the optimal colors to use, which will be the centroids. Thus, the number of clusters, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>, will be equal to the number of reduced colors.</p>
 <p>We could cluster all the colors in the image, but our implementation is too slow for that. Instead, we sample a random subset of the pixels and cluster them. Then we decide the cluster for every pixel in the image and use it&#8217;s centroid as color.</p>
 <div class="highlight"><pre><span></span><span class="n">NUM_COLORS</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="n">SAMPLE_PIXELS</span> <span class="o">=</span> <span class="mi">100000</span>
@@ -826,8 +830,20 @@ Every pixel can be represented as a 3-dimensional vector. The goal is to cluster
 </pre></div>
 
 
+<div class="portrait">
 <p><img alt="Reduced color image" src="reduced.jpg" /></p>
+</div>
 <p>And that&#8217;s our image using only eight colors. And it&#8217;s still pretty recognizable.</p>
+<h4 id="andy-warhol-inspired-pictures">Andy Warhol inspired pictures</h4>
+<p>
+<figure><img alt="One of Andy Warhol's artworks" src="warhol.jpg" /><figcaption>Figure 2: One of Andy Warhol&#8217;s artworks</figcaption>
+</figure>
+For one of my school art assignments I used this color reduction technique to create pictures inspired by Andy Warhol&#8217;s artworks. He made pictures of celebrities and often included a few different variations in one picture.</p>
+<p>I picked two famous people of the present day, Taylor Swift and Barack Obama, used k-means to reduce the colors and changed the hue in a few different ways.</p>
+<div class="gallery">
+<p><img alt="A picture of Taylor Swift inspired by Andy Warhol" src="taylor.jpg" />
+<img alt="A picture of Barack Obama inspired by Andy Warhol" src="barack.jpg" /></p>
+</div>
 <hr />
 <h3 id="classifying-handwritten-digits">Classifying handwritten digits</h3>
 <p>This time we will try applying k-means for unsupervised recognition of the Handwritten Digits Data Set from UCI Machine Learning Repository.<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> We will use a <code>scikit-learn</code> convenience function to load the dataset.</p>
@@ -854,7 +870,7 @@ Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.
 </pre></div>
 
 
-<p><img alt="svg" src="output_24_1.svg" /></p>
+<p><img alt="svg" src="output_25_1.svg" /></p>
 <p>The next step is to cluster the digits with k-means for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">k = 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span></span></span></span> (ten types of digits).</p>
 <div class="highlight"><pre><span></span><span class="n">CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -925,7 +941,7 @@ Accuracy: 0.7924318308291597
 </pre></div>
 
 
-<p><img alt="svg" src="output_31_1.svg" /></p>
+<p><img alt="svg" src="output_32_1.svg" /></p>
 <p>As you can see, the k-means classifier has some trouble distinguishing 1 and 8.</p>
 <hr />
 <h2 id="conclusion">Conclusion</h2>

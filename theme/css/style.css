@@ -146,10 +146,6 @@ article.main blockquote {
 	margin: 0;
 }
 
-article.main img, article.main video {
-	width: var(--content-width);
-}
-
 article.main > p, article.main > summary, article.main > .info, article.main > blockquote {
 	width: var(--content-width);
 	line-height: 1.5em;
@@ -162,6 +158,38 @@ article.main > .info > .author {
 
 article.main > .info {
 	margin-bottom: 20px;
+}
+
+/* Images etc. */
+
+article.main img, article.main video {
+	width: var(--content-width);
+}
+
+.wide {
+	width: 100%;
+}
+
+.portrait, .gallery {
+	width: var(--content-width);
+}
+
+article.main .portrait img {
+	width: 50%;
+	display: block;
+	margin: 0 auto;
+	padding: 10px;
+	background: var(--secondary);
+}
+
+article.main .gallery {
+	padding: 10px;
+	background: var(--secondary);
+}
+
+article.main .gallery img {
+	width: 49%;
+	vertical-align: middle;
 }
 
 /* Code blocks */
@@ -325,7 +353,7 @@ tbody {
 		content: "Note: ";
 	}
 
-    .sidenote, .marginnote, figure {
+    .sidenote, .marginnote, figure, article.main .portrait img, article.main .gallery img {
 		display: block;
 		padding: 10px;
 		margin: 0;
