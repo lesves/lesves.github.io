@@ -1,0 +1,10 @@
+{% extends "nav.html" %}
+
+{% block title %} | {{ page.title }}{% endblock %}
+
+{% block content %}
+	<article class="main page">
+		<h1><a href="{{ page.url }}">{{ page.title }}</a></h1>
+		{{ page.content|safe }}
+	</article>
+{% endblock %}

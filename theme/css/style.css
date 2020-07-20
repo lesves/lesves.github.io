@@ -30,6 +30,14 @@
 	}
 }
 
+/*::-webkit-scrollbar {
+	background: var(--primary);
+}
+
+::scrollbar {
+	background: var(--primary);
+}*/
+
 /* Font and text */
 
 body {
@@ -88,16 +96,27 @@ h1, h2, h3, h4, h5, h6 {
 	color: var(--title);
 }
 
-main h1 {
-	font-size: 1.7em;
-}
-
 article.preview > h3 {
 	margin: 0;
 	margin-top: 5px;
 }
 
+article.main .footnote hr {
+	width: 100%;
+}
+
+.footnote {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	hyphens: none;
+}
+
 /* Viewed article */
+
+article.main h1 { font-size: 1.8em; }
+article.main h2 { font-size: 1.5em; }
+article.main h3 { font-size: 1.25em; }
+article.main h4 { font-size: 1.1em; }
 
 article.main h1, 
 article.main h2, 
@@ -106,7 +125,7 @@ article.main h4,
 article.main h5, 
 article.main h6 {
 	width: var(--content-width);
-	text-align: justify;
+	text-align: left;
 }
 
 article.main hr {
@@ -119,11 +138,19 @@ article.main summary {
 	padding: 10px;
 }
 
-article.main img {
+article.main blockquote {
+	background: var(--secondary);
+	border-left: 5px solid var(--text-color);
+	padding: 10px;
+	padding-left: 15px;
+	margin: 0;
+}
+
+article.main img, article.main video {
 	width: var(--content-width);
 }
 
-article.main > p, article.main > summary, article.main > .info {
+article.main > p, article.main > summary, article.main > .info, article.main > blockquote {
 	width: var(--content-width);
 	line-height: 1.5em;
 	text-align: justify;
@@ -135,6 +162,18 @@ article.main > .info > .author {
 
 article.main > .info {
 	margin-bottom: 20px;
+}
+
+/* Code blocks */
+
+.highlight {
+	width: var(--content-width);
+	padding: 5px;
+	margin-left: 20px;
+	font-size: 0.9em;
+	/*background: var(--secondary);*/
+	border: 3px solid var(--secondary);
+	overflow-x: scroll;
 }
 
 /* Links */
@@ -192,6 +231,12 @@ h1 a, h2 a, h1 a:visited, h2 a:visited {
 		background: var(--secondary);
 	}
 
+	div.sidenote, div.marginnote {
+		padding: 0;
+		left: 0;
+		margin: 0;
+	}
+
 	.footnote-ref:before {
 		content: "[";
 	}
@@ -215,6 +260,9 @@ h1 a, h2 a, h1 a:visited, h2 a:visited {
 figcaption {
 	text-align: center;
 }
+figcaption.long {
+	text-align: justify;
+}
 
 article.main figure img {
 	width: 100%;
@@ -229,6 +277,7 @@ table {
 
 td, th {
 	padding: 5px;
+	text-align: left;
 }
 
 thead {
@@ -267,11 +316,16 @@ tbody {
 		display: none;
 	}
 
-	.sidenote:before, .footnote:before {
+	.sidenote:before {
+		content: "Note " counter(sidenote-counter) ": ";
+		counter-increment: sidenote-counter;
+	}
+
+	.marginnote:before {
 		content: "Note: ";
 	}
 
-    .sidenote, .footnote, figure {
+    .sidenote, .marginnote, figure {
 		display: block;
 		padding: 10px;
 		margin: 0;

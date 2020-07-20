@@ -51,7 +51,14 @@
     margin: 0;
 }
 
-.toc > ul > li { counter-reset: toc3; font-size: 0.8em; }
+.toc li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    line-height: 1em;
+}
+
+.toc > ul { counter-reset: toc2; }
+.toc > ul > li { counter-reset: toc3; font-size: 0.8em; margin-bottom: 10px; }
 .toc > ul > li > ul > li { counter-reset: toc4; font-size: 0.8em; }
 .toc > ul > li > ul > li > ul > li { counter-reset: toc5; }
 .toc > ul > li > ul > li > ul > li > ul > li { counter-reset: toc6; }

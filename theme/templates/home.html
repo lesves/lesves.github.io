@@ -1,0 +1,15 @@
+{% extends "nav.html" %}
+
+{% block content %}
+	<h2>Articles</h2>
+	{% for article in articles %}
+		{% if article.status == "published" %}
+			<article class="preview article">
+				<h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+				{#{% if article.summary %}
+					<summary>{{ article.summary|safe }} <a href="{{ article.url }}">Read more.</a></summary>
+				{% endif %}#}
+			</article>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

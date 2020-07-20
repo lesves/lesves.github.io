@@ -1,0 +1,17 @@
+{% extends "nav.html" %}
+
+{% block title %} | {{ tag }}{% endblock %}
+
+{% block content %}
+	<h2>Articles with the <a class="tag">{{ tag }}</a> tag.</h2>
+	{% for article in articles %}
+		{% if article.status == "published" and tag in article.tags %}
+			<article class="preview article">
+				<h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+				{#{% if article.summary %}
+					<summary>{{ article.summary|safe }}</summary>
+				{% endif %}#}
+			</article>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

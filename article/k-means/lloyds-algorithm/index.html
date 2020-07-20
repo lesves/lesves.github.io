@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<meta charset="UTF-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="author" content="Lukáš Veškrna">
+
+			<title>Debugging Heuristics | K-means clustering &#8211; Lloyd&#8217;s algorithm</title>
+
+			<link type="text/css" rel="stylesheet" href="/theme/katex/katex.min.css" />
+			<link type="text/css" rel="stylesheet" href="/theme/fonts/Computer_Modern/Computer_Modern.css" />
+			<link type="text/css" rel="stylesheet" href="/theme/css/pygment.light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"/>
+			<link type="text/css" rel="stylesheet" href="/theme/css/pygment.dark.css" media="(prefers-color-scheme: dark)" />
+			<link type="text/css" rel="stylesheet" href="/theme/css/normalize.css" />
+			<link type="text/css" rel="stylesheet" href="/theme/css/style.css" />
+			<link type="text/css" rel="stylesheet" href="/theme/css/toc.css" />
+		
+	</head>
+	<body>
+		<header>
+			
+	<h1><a href="/">Debugging Heuristics</a></h1>
+	<span class="subtitle author">Lukáš Veškrna</span>
+	<nav>
+		
+			<a href="/" class="item">Home</a>
+		
+		
+			
+				<a href="/page/about" class="item">About</a>
+			
+		
+	</nav>
+
+		</header>
+		<main>
+			
+	<article class="main article">
+		<h1><a href="/article/k-means/lloyds-algorithm/lloyds-algorithm">K-means clustering &#8211; Lloyd&#8217;s algorithm</a></h1>
+		<div class="info">
+			<span class="published">Published <time datetime="2020-07-20">2020-07-20</time></span>
+			<span class="author">Lukáš Veškrna</span>
+		</div>
+		<div class="tags">
+			Tags:
+			
+				<a class="tag" href="/tag/python">python</a>
+			
+				<a class="tag" href="/tag/k-means">k-means</a>
+			
+				<a class="tag" href="/tag/data-science">data-science</a>
+			
+				<a class="tag" href="/tag/algorithm">algorithm</a>
+			
+		</div>
+		
+		<div class="toc">
+<ul>
+<li><a href="#applications">Applications</a></li>
+<li><a href="#so-what-is-k-means-clustering">So what is K-means clustering?</a><ul>
+<li><a href="#lloyds-algorithm">Lloyd&#8217;s algorithm</a></li>
+</ul>
+</li>
+<li><a href="#implementation">Implementation</a><ul>
+<li><a href="#sample-data">Sample data</a></li>
+<li><a href="#initialization">Initialization</a></li>
+<li><a href="#the-predict-function">The predict function</a></li>
+<li><a href="#kmeans_step">kmeans_step</a></li>
+<li><a href="#training-function">Training function</a></li>
+<li><a href="#running-on-test-data">Running on test data</a></li>
+<li><a href="#animation">Animation</a></li>
+</ul>
+</li>
+<li><a href="#applying-it">Applying it</a><ul>
+<li><a href="#color-reduction">Color reduction</a></li>
+<li><a href="#classifying-handwritten-digits">Classifying handwritten digits</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>In this article, we will implement Lloyd&#8217;s algorithm, which is a naive (better algorithms are known, however, Lloyd&#8217;s algorithm is simple and very common) heuristic approach to <strong>k-means clustering</strong>. First of all, let&#8217;s talk about what is k-means clustering and what problems it solves.</p>
+<h2 id="applications">Applications</h2>
+<p>K-means has applications in data analysis, image processing and many more. For example, it can be used to create a recommendation system by separating customers into groups (<strong>clusters</strong>) and then recommending products based on the cluster the customer belongs to (multiple clusterings over different features are built). It can be also used to gain insights over data.</p>
+<p>Possible uses in image processing include image segmentation, color reduction or dithering. We will get to color reduction later.</p>
+<p>It can also be used for unsupervised classification, for instance in problems where we know the number of classes, but it is difficult to get a large number of labels for our data.</p>
+<h2 id="so-what-is-k-means-clustering">So what is K-means clustering?</h2>
+<p>K-means clustering is an unsupervised learning technique used to partition <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">d</span></span></span></span>-dimensional data points into <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> <strong>clusters</strong> (yes, the same <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> as in K-means).<span class="sidenote-wrapper"><sup>1</sup><span class="sidenote" id="sn:1"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> is a parameter that needs to be picked depending on the problem. There are methods to choose a good <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> for a problem where it is unclear, but that is beyond the scope of this article.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></span></span> Data points are assigned to clusters based on their distances from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> centroids (or <em>means</em>). The goal is to minimize the within-cluster variance (also called inertia)<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> It is defined as</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></munderover><munder><mo><mi>min</mi><mo>⁡</mo></mo><mrow><mi>c</mi><mtext> </mtext><mo>∈</mo><mtext> </mtext><mi>C</mi></mrow></munder><msup><mrow><mo fence="true">∥</mo><mi>c</mi><mo>−</mo><msub><mi>x</mi><mi>j</mi></msub><mo fence="true">∥</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\sum^n_{i=0} \min_{c\ \in\ C}\norm{c - x_j}^2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.929066em;vertical-align:-1.277669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6513970000000002em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3000050000000005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.66786em;"><span style="top:-2.355669em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mspace mtight"><span class="mtight"> </span></span><span class="mrel mtight">∈</span><span class="mspace mtight"><span class="mtight"> </span></span><span class="mord mathdefault mtight" style="margin-right:0.07153em;">C</span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">min</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.771701em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top:0em;">∥</span><span class="mord mathdefault">c</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">∥</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.954008em;"><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span> is the number of data points and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span> is the set of centroids.<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup> However, it is not easy to find the solution with minimal inertia, so the purpose of Lloyd&#8217;s algorithm is to <em>approximate</em> the best possible locations of the centroids.</p>
+<h3 id="lloyds-algorithm">Lloyd&#8217;s algorithm</h3>
+<p>The algorithm works iteratively &#8211; first, it creates the <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> centroids with some initialization method,<span class="sidenote-wrapper"><sup>2</sup><span class="sidenote" id="sn:2">The initial centroids could be chosen randomly but the algorithm would not perform very good. Thus, the initial centroids are chosen from the set of the data points or more advanced methods (such as k-means++) are used.</span></span> then it assigns every data point to the closest centroid. This way, they are split into <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> clusters. The next step is to move each centroid to the mean of the matching cluster, points are reassigned and the whole process is repeated.<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup></p>
+<p>
+<figure><img alt="The assignment of the data points to closest centroids can be represented using a klzzwxh:0033 generated by the centroids. A Voronoi diagram (also called tessellation) is a division of a plane into sets of points that are closest to a particular generator point. A voronoi diagram is defined by a set of these generator points. In our case, however, we won't use a Voronoi diagram, since a simple lookup will do.klzzwxh:0032" src="voronoi.svg" /><figcaption class="long">Figure 1: The assignment of the data points to closest centroids can be represented using a <a href="https://en.wikipedia.org/wiki/Voronoi_diagram">Voronoi diagram</a> generated by the centroids. A Voronoi diagram (also called tessellation) is a division of a plane into sets of points that are closest to a particular generator point. A voronoi diagram is defined by a set of these generator points. In our case, however, we won&#8217;t use a Voronoi diagram, since a simple lookup will do.<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup></figcaption>
+</figure>
+</p>
+<p>After some amount of iterations, the algorithm will converge, however it can get stuck in a local optimum and that&#8217;s why better implementations run it multiple times with different initial conditions and pick the best result.<sup id="fnref4:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<p>To summarize:</p>
+<ol>
+<li>Choose <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> initial centroids</li>
+<li>Assign every sample to the closest centroid</li>
+<li>Move the centroids to the means of their corresponding clusters</li>
+<li>Repeat steps 2-3 until the algorithm converges or reaches a maximum number of steps.</li>
+</ol>
+<h2 id="implementation">Implementation</h2>
+<p>Our implementation will be simple and slow, with the sole purpose of understanding the algorithm by implementing it.</p>
+<h3 id="sample-data">Sample data</h3>
+<p>At first, we create three clusters of random sample data in two dimensions.</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">default_rng</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&quot;axes&quot;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># Transparent plot background for dark mode viewers</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">datapoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">150</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="c1"># 90 datapoints with 2 dimensions</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">150</span><span class="p">,)</span>
+
+<span class="c1"># First cluster</span>
+<span class="n">datapoints</span><span class="p">[:</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">datapoints</span><span class="p">[:</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">labels</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Second cluster</span>
+<span class="n">datapoints</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">datapoints</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">labels</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># Third cluster</span>
+<span class="n">datapoints</span><span class="p">[</span><span class="mi">100</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">datapoints</span><span class="p">[</span><span class="mi">100</span><span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,))</span>
+<span class="n">labels</span><span class="p">[</span><span class="mi">100</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Plot it</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p><img alt="svg" src="output_1_0.svg" /></p>
+<h3 id="initialization">Initialization</h3>
+<p>Let&#8217;s create an initialization function that chooses the initial centroids randomly from the data points. Our initialization function also won&#8217;t pick a data point twice, because that would cause a cluster to degenerate and the data points would be clustered into less than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> clusters. (this could also happen if the dataset contains duplicates)<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_random</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">()):</span>
+    <span class="sd">&quot;&quot;&quot;Choose `k` centroids from the supplied `dataset` randomly&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
+</pre></div>
+
+
+<h3 id="the-predict-function">The <code>predict</code> function</h3>
+<p>Next, we write a function that assigns points from a dataset to corresponding clusters given the centroids.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the corresponding cluster indices</span>
+<span class="sd">    given the `centroids` for every datapoint from `dataset`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">dataset</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:],</span> <span class="n">centroids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dist</span> <span class="o">-=</span> <span class="n">centroids</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">dist</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<h3 id="kmeans_step"><code>kmeans_step</code></h3>
+<p>Now we create <code>kmeans_step</code> which performs one iteration of the algorithm.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kmeans_step</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform a single iteration of the algorithm. Return updated centroids.&quot;&quot;&quot;</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dataset</span><span class="p">[</span><span class="n">classes</span><span class="o">==</span><span class="bp">cls</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centroids</span><span class="p">))])</span>
+</pre></div>
+
+
+<h3 id="training-function">Training function</h3>
+<p>It&#8217;s time to write the generator <code>kmeans_base</code>. It yields and updates the centroids for every step of training on <code>dataset</code>.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">islice</span>
+
+
+<span class="k">def</span> <span class="nf">kmeans_base</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init_random</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">()):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A generator that fits `k`-means on `dataset`.</span>
+<span class="sd">    Centroids are initialized with `init`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">centroids</span>
+        <span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans_step</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+
+
+<p><code>until_convergence</code> and <code>until_max_iter</code> take from the generator while certain conditions are satisfied.<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup> We use these functions to create a combined function <code>kmeans_iter</code>.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">until_convergence</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yield values from `it` until the converge (i.e. stop changing)</span>
+<span class="sd">    within tolerance `tol`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">prev</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cur</span><span class="o">-</span><span class="n">prev</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">cur</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">cur</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">until_max_iter</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yield at most `max_iter` values from `it`. </span>
+<span class="sd">    `max_iter` can be None, therefore no limit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">islice</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">kmeans_iter</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init_random</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">()):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fits `k`-means on `dataset` until it converges</span>
+<span class="sd">    within tolerance `tol` or reaches `max_iter`. </span>
+<span class="sd">    Centroids are initialized with `init`.</span>
+<span class="sd">    Yields centroids every iteration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">until_max_iter</span><span class="p">(</span><span class="n">until_convergence</span><span class="p">(</span>
+                <span class="n">kmeans_base</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">),</span> 
+            <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">),</span> 
+        <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Finally, the main <code>kmeans</code> function, which fits k-means on a given dataset and returns the final centroid locations.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kmeans</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init_random</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">()):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fits `k`-means on `dataset` until it converges</span>
+<span class="sd">    within tolerance `tol` or reaches `max_iter`. </span>
+<span class="sd">    Centroids are initialized with `init`.</span>
+<span class="sd">    Return the trained centroids.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kmeans_iter</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+
+
+<h3 id="running-on-test-data">Running on test data</h3>
+<div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">datapoints</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">labels_pred</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">datapoints</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">labels_pred</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p><img alt="svg" src="output_15_0.svg" /></p>
+<hr />
+<h3 id="animation">Animation</h3>
+<p>Now let&#8217;s create an animation of the training process. This time we will just use uniformly distributed random points.
+<span class="marginnote">One interesting observation about running k-means on random points is that you can see the underlying Voronoi diagram arise.</span></p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.animation</span> <span class="kn">import</span> <span class="n">FuncAnimation</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">datapoints</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">datapoints</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">cla</span><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">datapoints</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">datapoints</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">model</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">model</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">anim</span> <span class="o">=</span> <span class="n">FuncAnimation</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(),</span> <span class="n">frame</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">steps</span><span class="p">),</span> <span class="n">interval</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">())</span>
+</pre></div>
+
+
+<video width="432" height="288" controls autoplay loop>
+  <source type="video/mp4" src="data:video/mp4;base64,AAAAHGZ0eXBNNFYgAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAABtm21kYXQAAAKuBgX//6rcRem9
+5tlIt5Ys2CDZI+7veDI2NCAtIGNvcmUgMTU5IHIyOTk5IDI5NjQ5NGEgLSBILjI2NC9NUEVHLTQg
+QVZDIGNvZGVjIC0gQ29weWxlZnQgMjAwMy0yMDIwIC0gaHR0cDovL3d3dy52aWRlb2xhbi5vcmcv
+eDI2NC5odG1sIC0gb3B0aW9uczogY2FiYWM9MSByZWY9MyBkZWJsb2NrPTE6MDowIGFuYWx5c2U9
+MHgzOjB4MTEzIG1lPWhleCBzdWJtZT03IHBzeT0xIHBzeV9yZD0xLjAwOjAuMDAgbWl4ZWRfcmVm
+PTEgbWVfcmFuZ2U9MTYgY2hyb21hX21lPTEgdHJlbGxpcz0xIDh4OGRjdD0xIGNxbT0wIGRlYWR6
+b25lPTIxLDExIGZhc3RfcHNraXA9MSBjaHJvbWFfcXBfb2Zmc2V0PS0yIHRocmVhZHM9OSBsb29r
+YWhlYWRfdGhyZWFkcz0xIHNsaWNlZF90aHJlYWRzPTAgbnI9MCBkZWNpbWF0ZT0xIGludGVybGFj
+ZWQ9MCBibHVyYXlfY29tcGF0PTAgY29uc3RyYWluZWRfaW50cmE9MCBiZnJhbWVzPTMgYl9weXJh
+bWlkPTIgYl9hZGFwdD0xIGJfYmlhcz0wIGRpcmVjdD0xIHdlaWdodGI9MSBvcGVuX2dvcD0wIHdl
+aWdodHA9MiBrZXlpbnQ9MjUwIGtleWludF9taW49MTAgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVz
+aD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBx
+cG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAEl0ZYiE
+ABD//veBvzLLXyK6yXH5530srM885DxyXYmuuNAAAAMADN2InuDwrXQ9FeAAIN5X4K9XEAUYSKM0
+rFBNUK0oVSwgHBbzNYnWzZJRdWNii48DbDtjtGAcZSfRTycRWcGlFb6xPYzfG38JEfaNaK8H2OX+
+n1H7PBF5SbPnakSN6Xf/SKAABrDDh8DngJtX9mqbhuWVmkS1FA9nc3aR+r6TSewE9DHhJ04/eI0p
+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
+">
+  Your browser does not support the video tag.
+</video>
+
+<p><img alt="svg" src="output_17_1.svg" /></p>
+<h2 id="applying-it">Applying it</h2>
+<p>Now let&#8217;s try applying our k-means to some problems. Of course, our implementation of k-means is very clumsy and these problems would be solved better using a different one, but in this article we will use our implementation to see if it is useful enough. In the real world, you should probably use (for example) <code>sklearn.cluster.KMeans</code> instead.</p>
+<h3 id="color-reduction">Color reduction</h3>
+<p>The first problem we will try to solve is color reduction. This can be done for viewing on some medium that does not support enough colors, for compression or for artistic purposes. </p>
+<p>The first step we take is to fetch some image. Image taken from <sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup>.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imageio</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;photo.jpg&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>(4288, 2848, 3)
+</pre></div>
+
+
+<p><img alt="Original image" src="photo.jpg" />
+Every pixel can be represented as a 3-dimensional vector. The goal is to cluster them, so we find the optimal colors to use, which will be the centroids. Thus, the number of clusters, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>, will be equal to the number of reduced colors.</p>
+<p>We could cluster all the colors in the image, but our implementation is too slow for that. Instead, we sample a random subset of the pixels and cluster them. Then we decide the cluster for every pixel in the image and use it&#8217;s centroid as color.</p>
+<div class="highlight"><pre><span></span><span class="n">NUM_COLORS</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">SAMPLE_PIXELS</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">assert</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">3</span>
+
+<span class="n">normalized</span> <span class="o">=</span> <span class="n">img</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="n">pixels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">normalized</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">pixels</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="o">*</span><span class="n">w</span><span class="p">,</span> <span class="p">(</span><span class="n">SAMPLE_PIXELS</span><span class="p">,))]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">(</span><span class="n">NUM_COLORS</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">reduced_img</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pixels</span><span class="p">)]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">imageio</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;reduced.jpg&quot;</span><span class="p">,</span> <span class="n">reduced_img</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="Reduced color image" src="reduced.jpg" /></p>
+<p>And that&#8217;s our image using only eight colors. And it&#8217;s still pretty recognizable.</p>
+<hr />
+<h3 id="classifying-handwritten-digits">Classifying handwritten digits</h3>
+<p>This time we will try applying k-means for unsupervised recognition of the Handwritten Digits Data Set from UCI Machine Learning Repository.<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> We will use a <code>scikit-learn</code> convenience function to load the dataset.</p>
+<p>There are 1797 digits and every digit is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>×</mo><mn>8</mn><mo>=</mo><mn>64</mn></mrow><annotation encoding="application/x-tex">8\times8 = 64</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord">4</span></span></span></span> pixels. Each pixel can have values 0-16. </p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Shape:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Format:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>Shape: (1797, 64)
+Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.
+ 15.  2.  0. 11.  8.  0.  0.  4. 12.  0.  0.  8.  8.  0.  0.  5.  8.  0.
+  0.  9.  8.  0.  0.  4. 11.  0.  1. 12.  7.  0.  0.  2. 14.  5. 10. 12.
+  0.  0.  0.  0.  6. 13. 10.  0.  0.  0.]
+</pre></div>
+
+
+<p><img alt="svg" src="output_24_1.svg" /></p>
+<p>The next step is to cluster the digits with k-means for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">k = 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span></span></span></span> (ten types of digits).</p>
+<div class="highlight"><pre><span></span><span class="n">CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
+    <span class="k">pass</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Converged after {i} steps.&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>Converged after 14 steps.
+</pre></div>
+
+
+<p>Because our classification was unsupervised, we need to find out which cluster belongs to which class. We will determine the cluster for all of the digits and find the most common digit among those clusters using <code>mode</code>.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">mode</span>
+
+
+<span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">CLASSES</span><span class="p">,))</span> <span class="c1"># A mapping (cluster_id -&gt; label)</span>
+
+<span class="n">clusters</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">cluster_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">):</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">clusters</span> <span class="o">==</span> <span class="n">cluster_idx</span><span class="p">]</span>
+
+    <span class="n">cluster_labels</span><span class="p">[</span><span class="n">cluster_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">mode</span><span class="p">(</span><span class="n">real_labels</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span> <span class="c1"># The most common real label in the cluster</span>
+
+<span class="n">predicted</span> <span class="o">=</span> <span class="n">cluster_labels</span><span class="p">[</span><span class="n">clusters</span><span class="p">]</span> <span class="c1"># Map the clusters to corresponding labels</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="n">correct</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span><span class="o">/</span><span class="n">total</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Correctly classified {correct} out of {total}.</span><span class="se">\n</span><span class="s2">Accuracy: {accuracy}&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>Correctly classified 1424 out of 1797.
+Accuracy: 0.7924318308291597
+</pre></div>
+
+
+<p>An accuracy of 79% is pretty good, if you take in account that the classifier is completely unsupervised and achieved this score only by grouping the digits into 10 clusters.</p>
+<p>To get more insights, we can generate a <a href="https://en.wikipedia.org/wiki/Confusion_matrix">confusion matrix</a>. A confusion matrix tells us how many samples for every label got classified as every other label.</p>
+<div class="highlight"><pre><span></span><span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">CLASSES</span><span class="p">,</span> <span class="n">CLASSES</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">):</span>
+        <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;predicted&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_top</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x1177d7ed0&gt;
+</pre></div>
+
+
+<p><img alt="svg" src="output_31_1.svg" /></p>
+<p>As you can see, the k-means classifier has some trouble distinguishing 1 and 8.</p>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><code>scikit-learn</code> Userguide, chapter 2.3. Clustering [online: <a href="https://scikit-learn.org/stable/modules/clustering.html#k-means">https://scikit-learn.org/stable/modules/clustering.html#k-means</a>]&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Jake VanderPlas, Python Data Science Handbook [online: <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html">https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html</a>]&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://stackoverflow.com/questions/24919346/mini-batch-k-means-returns-less-than-k-clusters">https://stackoverflow.com/questions/24919346/mini-batch-k-means-returns-less-than-k-clusters</a>&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Inspired by Joel Grus&#8217; awesome talk <em>Learning Data Science Using Functional Python</em>&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p><span>Photo by <a href="https://unsplash.com/@gingermias?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">S L</a> on <a href="https://unsplash.com/t/people?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>Source: <a href="https://en.wikipedia.org/wiki/Voronoi_diagram#/media/File:Euclidean_Voronoi_diagram.svg">https://en.wikipedia.org/wiki/Voronoi_diagram#/media/File:Euclidean_Voronoi_diagram.svg</a>&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p>Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [<a href="http://archive.ics.uci.edu/ml">http://archive.ics.uci.edu/ml</a>]. Irvine, CA: University of California, School of Information and Computer Science.&#160;<a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+	</article>
+
+		</main>
+		<footer>
+			
+	
+
+		</footer>
+	</body>
+</html>

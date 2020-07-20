@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1><a href="/">{{ settings.TITLE }}</a></h1>
+	<span class="subtitle author">{{ settings.AUTHOR }}</span>
+	<nav>
+		{% if home %}
+			<span class="item">Home</span>
+		{% else %}
+			<a href="/" class="item">Home</a>
+		{% endif %}
+		{% for page_ in pages %}
+			{% if page %}
+				<span class="item">{{ page_.title }}</span>
+			{% else %}
+				<a href="{{ page_.url }}" class="item">{{ page_.title }}</a>
+			{% endif %}
+		{% endfor %}
+	</nav>
+{% endblock %}
+
+{% block footer %}
+	
+{% endblock %}
