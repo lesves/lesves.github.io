@@ -1026,7 +1026,7 @@ Accuracy: 0.8697829716193656
 </pre></div>
 
 
-<p>k-means++ initialization is slower, but, in the end, it reduces computation time, because the algorithm converges in less iterations.<sup id="fnref3:8"><a class="footnote-ref" href="#fn:8">8</a></sup> To test this, we will compare <code>init_random</code> and <code>init_kmeanspp</code> on our color reduction problem, since it is the most time expensive problem covered.</p>
+<p>In some cases kmeans++ significantly improves the final error. k-means++ initialization is slower, but, in the end, it reduces computation time, because the algorithm converges in less iterations.<sup id="fnref3:8"><a class="footnote-ref" href="#fn:8">8</a></sup> To test this, we will compare <code>init_random</code> and <code>init_kmeanspp</code> on our color reduction problem, since it is the most time expensive problem covered.</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="n">NUM_COLORS</span><span class="p">,</span> <span class="n">sampled_pixels</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
     <span class="k">pass</span>
 
