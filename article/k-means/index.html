@@ -16,13 +16,13 @@
 			<link type="text/css" rel="stylesheet" href="/theme/css/style.css" />
 			<link type="text/css" rel="stylesheet" href="/theme/css/toc.css" />
 		
-		<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-172447473-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
 
-			gtag('config', '');
+			gtag('config', 'UA-172447473-1');
 		</script>
 	</head>
 	<body>
@@ -131,8 +131,8 @@
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="o">%</span><span class="n">config</span> <span class="n">InlineBackend</span><span class="o">.</span><span class="n">figure_format</span> <span class="o">=</span> <span class="s2">&quot;svg&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">default_rng</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s2">&quot;axes&quot;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># Transparent plot background for dark mode viewers</span>
@@ -166,7 +166,7 @@
 <p>Let&#8217;s create an initialization function that chooses the initial centroids randomly from the data points. Our initialization function also won&#8217;t pick a data point twice, because that would cause a cluster to degenerate and the data points would be clustered into less than <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> clusters. (this could also happen if the dataset contains duplicates)<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup></p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">init_random</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">()):</span>
     <span class="sd">&quot;&quot;&quot;Choose `k` centroids from the supplied `dataset` randomly&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">dataset</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="p">[</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
 </pre></div>
 
 
@@ -212,7 +212,7 @@
 <span class="sd">    Centroids are initialized with `init`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">centroids</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">centroids</span>
         <span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans_step</span><span class="p">(</span><span class="n">centroids</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
 </pre></div>
@@ -224,9 +224,9 @@
 <span class="sd">    Yield values from `it` until the converge (i.e. stop changing)</span>
 <span class="sd">    within tolerance `tol`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">prev</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">prev</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cur</span><span class="o">-</span><span class="n">prev</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+    <span class="k">while</span> <span class="n">prev</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cur</span><span class="o">-</span><span class="n">prev</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">cur</span>
         <span class="n">prev</span> <span class="o">=</span> <span class="n">cur</span>
         <span class="n">cur</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
@@ -821,11 +821,11 @@ dG9vAAAAHWRhdGEAAAABAAAAAExhdmY1OC4yOS4xMDA=
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">imageio</span>
 
 <span class="n">img</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;photo.jpg&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>(4288, 2848, 3)
+<div class="highlight"><pre><span></span><span class="err">(4288, 2848, 3)</span>
 </pre></div>
 
 
@@ -875,8 +875,8 @@ For one of my school art assignments I used this color reduction technique to cr
 
 <span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Shape:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Format:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Format:&quot;</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
@@ -885,11 +885,11 @@ For one of my school art assignments I used this color reduction technique to cr
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Shape: (1797, 64)
-Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.
- 15.  2.  0. 11.  8.  0.  0.  4. 12.  0.  0.  8.  8.  0.  0.  5.  8.  0.
-  0.  9.  8.  0.  0.  4. 11.  0.  1. 12.  7.  0.  0.  2. 14.  5. 10. 12.
-  0.  0.  0.  0.  6. 13. 10.  0.  0.  0.]
+<div class="highlight"><pre><span></span><span class="c">Shape: (1797, 64)</span>
+<span class="c">Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.</span>
+<span class="c"> 15.  2.  0. 11.  8.  0.  0.  4. 12.  0.  0.  8.  8.  0.  0.  5.  8.  0.</span>
+<span class="c">  0.  9.  8.  0.  0.  4. 11.  0.  1. 12.  7.  0.  0.  2. 14.  5. 10. 12.</span>
+<span class="c">  0.  0.  0.  0.  6. 13. 10.  0.  0.  0.]</span>
 </pre></div>
 
 
@@ -900,11 +900,11 @@ Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="n">CLASSES</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
     <span class="k">pass</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Converged after {i} steps.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged after </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> steps.&quot;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Converged after 14 steps.
+<div class="highlight"><pre><span></span><span class="err">Converged after 14 steps.</span>
 </pre></div>
 
 
@@ -933,12 +933,12 @@ Format: [ 0.  0.  5. 13.  9.  1.  0.  0.  0.  0. 13. 15. 10. 15.  5.  0.  0.  3.
 <div class="highlight"><pre><span></span><span class="n">correct</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span>
 <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span><span class="o">/</span><span class="n">total</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Correctly classified {correct} out of {total}.</span><span class="se">\n</span><span class="s2">Accuracy: {accuracy}&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correctly classified </span><span class="si">{</span><span class="n">correct</span><span class="si">}</span><span class="s2"> out of </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Correctly classified 1424 out of 1797.
-Accuracy: 0.7924318308291597
+<div class="highlight"><pre><span></span><span class="err">Correctly classified 1424 out of 1797.</span>
+<span class="c">Accuracy: 0.7924318308291597</span>
 </pre></div>
 
 
@@ -1004,7 +1004,7 @@ Accuracy: 0.7924318308291597
     <span class="n">correct</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span>
     <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span><span class="o">/</span><span class="n">total</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Correctly classified {correct} out of {total}.</span><span class="se">\n</span><span class="s2">Accuracy: {accuracy}&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Correctly classified </span><span class="si">{</span><span class="n">correct</span><span class="si">}</span><span class="s2"> out of </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">CLASSES</span><span class="p">)</span>
 
@@ -1012,8 +1012,8 @@ Accuracy: 0.7924318308291597
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>Correctly classified 1563 out of 1797.
-Accuracy: 0.8697829716193656
+<div class="highlight"><pre><span></span><span class="err">Correctly classified 1563 out of 1797.</span>
+<span class="c">Accuracy: 0.8697829716193656</span>
 </pre></div>
 
 
@@ -1038,12 +1038,12 @@ Accuracy: 0.8697829716193656
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="n">NUM_COLORS</span><span class="p">,</span> <span class="n">sampled_pixels</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
     <span class="k">pass</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;init_random: Converged after {i} steps.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;init_random: Converged after </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> steps.&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kmeans_iter</span><span class="p">(</span><span class="n">NUM_COLORS</span><span class="p">,</span> <span class="n">sampled_pixels</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init_kmeanspp</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
     <span class="k">pass</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;kmeans++: Converged after {i} steps.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;kmeans++: Converged after </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> steps.&quot;</span><span class="p">)</span>
 </pre></div>
 
 
