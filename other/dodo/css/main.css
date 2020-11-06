@@ -4,6 +4,10 @@ html, body {
 	background-size: 100vw 100vh;
 }
 
+em {
+	color: rgb(179, 179, 179);
+}
+
 #view {
 	width: 100vw;
 	height: 100vh;
@@ -36,6 +40,12 @@ html, body {
 	margin: 50px auto;
 	padding: 20px;
 	background: rgba(5, 5, 40, 0.7);
+}
+
+.help {
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 20px;
 }
 
 .buttons {
