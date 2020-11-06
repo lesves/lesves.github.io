@@ -1,0 +1,14 @@
+{
+	"01": {
+		"name": "1. patro",
+		"pano": "assets/pano/01.jpg",
+		"paths": [{"lat": 5, "lon": 110, "hall": "02", "tooltip": "Jít o patro výše."},
+				  {"lat": 5, "lon": 170, "room": "assets/h.html", "tooltip": "Chemická show"}]
+	},
+	"02": {
+		"name": "2. patro",
+		"pano": "assets/pano/02.jpg",
+		"paths": [{"lat": 0, "lon": 45, "hall": "01", "tooltip": "Jít o patro níže"},
+		{"lat": 12, "lon": 140, "room": "assets/h.html", "tooltip": "Chemická show"}]
+	}
+}
