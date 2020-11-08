@@ -1,7 +1,7 @@
 var fact_index = 0;
 var facts = [
-    'Gymnázium je vybaveno knihovnou, která obsahuje přes 16 000 knih',
-    'Motto: Per aspera ad astra',
+    'Gymnázium je vybaveno knihovnou, která obsahuje přes 16 000 knih.',
+    'Motto: Per aspera ad astra.',
     'Škola má bezbariérový přístup.',
     'Škola má kapacitu 590 žáků, v současné době má 20 tříd. ',
     'Naše škola je nejlepší. :D',
