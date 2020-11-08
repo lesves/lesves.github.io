@@ -3,14 +3,16 @@
 		<link rel="stylesheet" href="css/main.css" />
 		<link rel="stylesheet" href="css/modules/photo-sphere-viewer.css" />
 		<link rel="stylesheet" href="css/modules/markers.css" />
+		<link rel="icon" href="assets/favicon.png"/>
 		<link href="https://fonts.googleapis.com/css2?family=Spectral&display=swap" rel="stylesheet" /> 
 		<meta charset="utf-8" />
-		<script src="bundle.js"></script>
+		<title> Gymnázium Jana Keplera - Den otevřených dveří</title>
+		<script src="loader.js"></script>
 	</head>
 	<body>
 		<div id="view"></div>
 		<div id="overlay">
-			<div id="overlay-body">
+			<div class="overlay-body" id="intro">
 				<h2>Vážení a ctění uchazeči, vítejte na Dni Otevřených Dveří Online!</h2>
 
 				<p>Nejprv však otázku Vám položíme. Které jest studium, jež Vaší pozornost získalo si?</p>
@@ -18,9 +20,17 @@
 				<p class="buttons"><a class="button" id="fouryear" href="#">Čtyřleté</a>
 				<a class="button" id="eightyear" href="#">Osmileté</a></p>
 
-				<p>Zvolivše odpověď, započnete prohlídku.</p>
+				<p>Zvolivše odpověď započnete prohlídku.</p>
 
-				<p><em>Návod: Jedná se o virtuální prohlídku s panoramaty. Panoramata otáčejte pomocí tahu myší. Kliknutím na tmavé body se přesunete na jiné místo. Projděte všechny třídy, odpovězte na otázky, získejte body a dokončete cestu podáním přihlášky.</em></p>
+				<p><em>Návod: Jedná se o virtuální prohlídku s panoramaty. Panoramata otáčejte pomocí tahu myší. Kliknutím na tmavé body se přesunete na jiné místo. Projděte všechny třídy, odpovězte na otázky, získejte body a dokončete cestu podáním přihlášky. Jestliže se ztratíte, použijte tlačítko seznam bodů vlevo dole.</em></p>
+			</div>
+			<div class="overlay-body" id="loader" style="display:none;">
+				<h2>Načítání...</h2>
+				<div class="progress">
+				  <span id="loader-bar" style="width: 0%"></span>
+				</div>
+				<p> Prosíme o strpení. Načítání může chvíli zabrat. </p>
+				<p><h3> Náhodná zajímavost o škole:</h3> <i><span id="fact"></span></i></p>
 			</div>
 		</div>
 	</body>

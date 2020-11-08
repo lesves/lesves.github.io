@@ -1,7 +1,11 @@
 html, body {
 	margin: 0;
-	background: url("../assets/gjk.jpg");
-	background-size: 100vw 100vh;
+	background-color: black;
+	background-image: url("../assets/gjk-wide.jpg");
+	background-size: auto 100vh;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
 }
 
 em {
@@ -34,9 +38,9 @@ em {
 	right: 0;
 }
 
-#overlay-body {
+.overlay-body {
 	width: 50vw;
-	height: 50vh;
+	min-height: 30vh;
 	margin: 50px auto;
 	padding: 20px;
 	background: rgba(5, 5, 40, 0.7);
@@ -60,7 +64,7 @@ em {
 	color: white;
 	text-decoration: none;
 	text-transform: uppercase;
-    font-weight: bold;
+	font-weight: bold;
 
 	-webkit-transition: color 0.25s, background 0.25s;
 	transition: color 0.25s, background 0.25s;
@@ -70,4 +74,23 @@ em {
 .button:hover, .button:active {
 	color: rgba(5, 5, 40, 0.7);
 	background: white;
+}
+
+.progress {
+	background: transparent;
+	height: 20px;
+	position: relative;
+	outline: .1em solid;
+	padding: 10px;
+}
+
+.progress > span {
+	display: block;
+	height: 100%;
+	outline: .1em solid;
+
+	background: rgb(250, 250, 215); /*rgb(5, 100, 140);*/
+
+	position: relative;
+	overflow: hidden;
 }

@@ -1,0 +1,108 @@
+var fact_index = 0;
+var facts = [
+    'Škola má bezbariérový přístup. Je vybavena knihovnou, která obsahuje přes 16 000 knih, 13 odbornými učebnami (včetně počítačových učeben, chemických, biologických a fyzikálních laboratoří, posluchárny, společenskovědní učebny, auly a jazykových tříd), školní restaurací Eurest, hřištěm s umělým povrchem, dvěma tělocvičnami, posilovnou, umělou lezeckou stěnou a od roku 2009 také novou víceúčelovou halou a terasou. V roce 2006 byla také zprovozněna Wi-Fi. ',
+    'Škola má kapacitu 590 žáků, v současné době má 20 tříd. ',    
+    'Naše škola je nejlepší. :D',
+]
+
+var fouryear;
+var yearSelected
+var loadStep = 0
+var loadSteps = 8
+
+function include(filename, onload, id) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    if(id) {
+    	script.id = id;
+    }
+    script.src = filename;
+    script.type = 'text/javascript';
+    script.onload = script.onreadystatechange = function() {
+        if (script.readyState) {
+            if (script.readyState === 'complete' || script.readyState === 'loaded') {
+                script.onreadystatechange = null;onload();}
+            } else {
+                onload();
+            }
+        };
+    head.appendChild(script);
+}
+
+window.resourceCache = {};
+var loading = [];
+function resourcesLoad(Arr) {
+    Arr.forEach(function(url) {
+        if(window.resourceCache[url]) {
+            return window.resourceCache[url];
+        }
+        else {
+            var img = new Image();
+            img.onload = function() {
+                window.resourceCache[url] = img;
+                partialCallback()
+
+                if(loadStep == loadSteps) {
+                    resourceReadyCallback()
+                }
+            };
+            window.resourceCache[url] = false;
+            img.src = url;
+        }
+    });
+}
+
+
+window.onload = function() {
+    include('bundle.js', function() {
+        loadStep += 1
+        document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
+        resourcesLoad([
+            'assets/pano/01.jpg',
+            'assets/pano/02.jpg',
+            'assets/pano/03.jpg',
+            'assets/pano/04.jpg',
+            'assets/pano/05.jpg',
+            'assets/pano/06.jpg',
+            'assets/pano/07.jpg',
+        ])
+    })
+    var button4 = document.getElementById("fouryear");
+    var button8 = document.getElementById("eightyear");
+
+    if (button4 && button8) {
+        button4.addEventListener("click", (event) => { yearSelect(true);  if (loadStep == loadSteps) {start()} });
+        button8.addEventListener("click", (event) => { yearSelect(false); if (loadStep == loadSteps) {start()} });
+    }
+}
+
+function yearSelect(isFouryear) {
+    fouryear = isFouryear;
+    yearSelected = true;
+
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("loader").style.display = "block";
+
+    document.getElementById("fact").innerHTML = facts[fact_index];
+    setInterval(function() {
+        fact_index = (fact_index + 1) % facts.length;
+        document.getElementById("fact").innerHTML = facts[fact_index];
+    },10000)
+}
+
+
+function resourceReadyCallback() {
+    if (yearSelected)
+        start();
+}
+
+function partialCallback() {
+    loadStep += 1
+    document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
+}
+
+function start() {
+    var overlay = document.getElementById("overlay");
+    if (overlay) { overlay.style.filter = "blur(2px)" };
+    window.start()
+}
