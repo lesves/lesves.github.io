@@ -1,7 +1,9 @@
 var fact_index = 0;
 var facts = [
-    'Škola má bezbariérový přístup. Je vybavena knihovnou, která obsahuje přes 16 000 knih, 13 odbornými učebnami (včetně počítačových učeben, chemických, biologických a fyzikálních laboratoří, posluchárny, společenskovědní učebny, auly a jazykových tříd), školní restaurací Eurest, hřištěm s umělým povrchem, dvěma tělocvičnami, posilovnou, umělou lezeckou stěnou a od roku 2009 také novou víceúčelovou halou a terasou. V roce 2006 byla také zprovozněna Wi-Fi. ',
-    'Škola má kapacitu 590 žáků, v současné době má 20 tříd. ',    
+    'Gymnázium je vybaveno knihovnou, která obsahuje přes 16 000 knih',
+    'Motto: Per aspera ad astra',
+    'Škola má bezbariérový přístup.',
+    'Škola má kapacitu 590 žáků, v současné době má 20 tříd. ',
     'Naše škola je nejlepší. :D',
 ]
 
@@ -83,11 +85,11 @@ function yearSelect(isFouryear) {
     document.getElementById("intro").style.display = "none";
     document.getElementById("loader").style.display = "block";
 
-    document.getElementById("fact").innerHTML = facts[fact_index];
+    document.getElementById("fact").innerHTML = "<em>" + facts[fact_index] + "</em>";
     setInterval(function() {
         fact_index = (fact_index + 1) % facts.length;
         document.getElementById("fact").innerHTML = facts[fact_index];
-    },10000)
+    }, 2000);
 }
 
 
