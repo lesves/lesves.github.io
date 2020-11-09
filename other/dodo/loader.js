@@ -8,9 +8,9 @@ var facts = [
 ]
 
 var fouryear;
-var yearSelected
-var loadStep = 0
-var loadSteps = 8
+var yearSelected;
+var loadStep = 0;
+var loadSteps = 8;
 
 function include(filename, onload, id) {
     var head = document.getElementsByTagName('head')[0];
