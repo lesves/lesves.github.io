@@ -5,7 +5,8 @@
 		"paths": [
 			{"lat": 5, "lon": 110, "hall": "02", "tooltip": "Jít o patro výše."},
 			{"lat": 3, "lon": 36.5, "hall": "06", "tooltip": "Přejít na Hládkov"},
-			{"lat": 5, "lon": 170, "room": "assets/h.html", "tooltip": "Chemická show"}
+			{"lat": 5, "lon": 170, "room": "assets/chemie.html",
+			"bg": "assets/chemie.jpg", "tooltip": "Chemická show"}
 		]
 	},
 	"02": {

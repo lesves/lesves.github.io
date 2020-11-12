@@ -6,6 +6,7 @@ html, body {
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
+	overflow: hidden;
 }
 
 em {
@@ -30,14 +31,19 @@ em {
 	left: 0;
 	z-index: 666;
 	font-family: "Spectral", serif;
+
+	background-size: auto 100vh;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+
+	overflow: hidden;
 }
 
 #cross {
-	position: absolute;
-	top: 20px;
-	right: 20px;
-	width: 60px;
-	height: 60px;
+	float: right;
+	width: 30px;
+	height: 30px;
 }
 
 .overlay-body {
@@ -46,6 +52,14 @@ em {
 	margin: 50px auto;
 	padding: 20px;
 	background: rgba(5, 5, 40, 0.7);
+
+	overflow: scroll;
+}
+
+.overlay-body video, .overlay-body iframe {
+	margin-top: 15px;
+	width: 100%;
+	height: 56.25%;
 }
 
 .help {
@@ -78,6 +92,20 @@ em {
 	background: white;
 }
 
+.button.disabled {
+	color: #BEBEBE;
+	cursor: not-allowed;
+}
+
+.button.disabled:hover {
+	color: #BEBEBE;
+	background: none;
+}
+
+.points {
+	margin-left: 50px;
+}
+
 .progress {
 	background: transparent;
 	height: 20px;
@@ -95,4 +123,24 @@ em {
 
 	position: relative;
 	overflow: hidden;
+}
+
+.popup {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 200px;
+	padding: 5px 50px 5px 50px;
+	margin-left: -150px;
+	z-index: 667;
+
+	background: black;
+	color: rgb(250, 250, 215);
+
+	border: 1px solid rgb(250, 250, 215);
+	font-family: "Spectral", serif;
+
+	/*color: black;
+	background: rgba(255, 255, 255, 0.9);*/
 }

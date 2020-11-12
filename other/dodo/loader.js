@@ -11,6 +11,7 @@ var fouryear;
 var yearSelected;
 var loadStep = 0;
 var loadSteps = 8;
+var int;
 
 function include(filename, onload, id) {
     var head = document.getElementsByTagName('head')[0];
@@ -86,9 +87,16 @@ function yearSelect(isFouryear) {
     document.getElementById("loader").style.display = "block";
 
     document.getElementById("fact").innerHTML = "<em>" + facts[fact_index] + "</em>";
-    setInterval(function() {
+    int = setInterval(function() {
         fact_index = (fact_index + 1) % facts.length;
-        document.getElementById("fact").innerHTML = facts[fact_index];
+
+        var fact = document.getElementById("fact");
+        if (!fact) {
+            clearInterval(int);
+            return;
+        }
+
+        fact.innerHTML = facts[fact_index];
     }, 2000);
 }
 
