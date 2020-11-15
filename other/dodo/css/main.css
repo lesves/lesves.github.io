@@ -1,12 +1,15 @@
 html, body {
 	margin: 0;
+	position: relative;
+}
+
+body {
 	background-color: black;
 	background-image: url("../assets/gjk-wide.jpg");
 	background-size: auto 100vh;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
-	overflow: hidden;
 }
 
 em {
@@ -19,6 +22,8 @@ em {
 	position: absolute;
 	top: 0;
 	left: 0;
+
+	overflow: hidden;
 }
 
 #overlay {
@@ -41,19 +46,24 @@ em {
 }
 
 #cross {
+	position: sticky;
 	float: right;
+	top: 0;
 	width: 30px;
 	height: 30px;
 }
 
 .overlay-body {
+	position: relative;
+
 	width: 50vw;
-	min-height: 30vh;
+	min-height: 35vh;
+	max-height: 70vh;
 	margin: 50px auto;
 	padding: 20px;
 	background: rgba(5, 5, 40, 0.7);
 
-	overflow: scroll;
+	overflow: auto;
 }
 
 .overlay-body video, .overlay-body iframe {
@@ -128,11 +138,11 @@ em {
 .popup {
 	display: none;
 	position: absolute;
-	top: 0;
+	top: 100px;
 	left: 50%;
-	width: 200px;
+	width: 400px;
+	transform: translate(-50%, 0);
 	padding: 5px 50px 5px 50px;
-	margin-left: -150px;
 	z-index: 667;
 
 	background: black;
