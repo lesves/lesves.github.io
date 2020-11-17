@@ -154,3 +154,27 @@ em {
 	/*color: black;
 	background: rgba(255, 255, 255, 0.9);*/
 }
+
+#minimap {
+	position: absolute;
+	right: 1vw;
+	top: 1vw;
+	width: min(20vw, 50vh);
+	height: min(20vw, 50vh);
+	visibility: hidden;
+	background: rgba(61, 61, 61, 0.5);
+	z-index: 665;
+	border: 1px solid rgba(255, 255, 255, 0.7)
+}
+
+#minimap-bg {
+	height: 100%;
+	width: 100%;
+}
+
+#minimap-player {
+	position: relative;
+	width: 8%;
+	top: -92%;
+	right: -46%;
+}
