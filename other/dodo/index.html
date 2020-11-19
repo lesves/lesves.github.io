@@ -6,6 +6,7 @@
 		<link rel="icon" href="assets/favicon.png"/>
 		<link href="https://fonts.googleapis.com/css2?family=Spectral&display=swap" rel="stylesheet" /> 
 		<meta charset="utf-8" />
+		<!--<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>-->
 		<title>Gymnázium Jana Keplera - Den otevřených dveří</title>
 		<script src="loader.js"></script>
 
@@ -22,7 +23,7 @@
 	<body>
 		<div id="view"></div>
 		<div id="minimap"><img id="minimap-bg" src="assets/map/3.png"><img id="minimap-player" src="assets/map/player.png"><div id="minimap-markers"></div>
-			<div class="psv-tooltip psv-tooltip--top-center psv-tooltip--visible" id="minimap-tooltip" style="top: 463px; left: 170px;">
+			<div class="psv-tooltip psv-tooltip--top-center psv-tooltip--visible" id="minimap-tooltip" style="top: 463px; left: 170px; visibility: hidden">
 				<div class="psv-tooltip-content" id="minimap-tooltip-content">Přejít na Parléřovu</div>
 				<div class="psv-tooltip-arrow" style="top: -14px; left: 68px;transform: rotate(180deg);"></div>
 			</div>
@@ -41,7 +42,7 @@
 				<p><em>Poznámka: Jedná se o virtuální prohlídku s panoramaty.</em></p>
 			</div>
 			<div class="overlay-body" id="introvideo" style="display: none;">
-				<iframe src="https://www.youtube.com/embed/SEOM-QJ6TuM?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				<iframe id="introframe" src="https://www.youtube.com/embed/SEOM-QJ6TuM" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
 				<p class="buttons"><a class="button" id="introcontinue" href="#">Pokračovat</a></p>
 			</div>
 			<div class="overlay-body" id="loader" style="display: none;">

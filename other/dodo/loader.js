@@ -107,6 +107,8 @@ function loading_screen() {
     loader_on = true;
 
     document.getElementById("introvideo").style.display = "none";
+    var f = document.getElementById("introframe");
+    f.parentNode.removeChild(f);
     document.getElementById("loader").style.display = "block";
 
     document.getElementById("fact").innerHTML = "<em>" + facts[fact_index] + "</em>";
@@ -137,5 +139,6 @@ function partialCallback() {
 function start_app() {
     var overlay = document.getElementById("overlay");
     if (overlay) { overlay.style.filter = "blur(2px)" };
-    window.start(fouryear)
+    window.start(fouryear);
+    document.body.style.backgroundImage = "none";
 }
