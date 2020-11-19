@@ -10,7 +10,7 @@ var facts = [
 var fouryear;
 var yearSelected;
 var loadStep = 0;
-var loadSteps = 8;
+var loadSteps = Infinity;
 var int;
 
 function include(filename, onload, id) {
@@ -60,7 +60,7 @@ window.onload = function() {
     include('bundle.js', function() {
         loadStep += 1
         document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
-        resourcesLoad([
+        res = [ //Add all assets that should be preloaded for smooth play, they will be loaded to browser cache.
             'assets/pano/01.jpg',
             'assets/pano/02.jpg',
             'assets/pano/03.jpg',
@@ -68,7 +68,15 @@ window.onload = function() {
             'assets/pano/05.jpg',
             'assets/pano/06.jpg',
             'assets/pano/07.jpg',
-        ])
+            'assets/map/0.png',
+            'assets/map/1.png',
+            'assets/map/2.png',
+            'assets/map/3.png',
+            'assets/map/player.png',
+            'assets/cup.png',
+        ];
+        loadSteps = res.length+1;
+        resourcesLoad(res);
     })
     var button4 = document.getElementById("fouryear");
     var button8 = document.getElementById("eightyear");

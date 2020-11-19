@@ -5,14 +5,29 @@
 		"paths": [
 			{"lat": 5, "lon": 110, "hall": "02", "tooltip": "Jít o patro výše."},
 			{"lat": 3, "lon": 36.5, "hall": "06", "tooltip": "Přejít na Hládkov"},
-			{"lat": 5, "lon": 170, "room": "assets/chemie.html",
-			"bg": "assets/chemie.jpg", "tooltip": "Chemická show"}
+			{"lat": -1.5, "lon": 127.5, "room": "A1"},
+			{"lat": -1.5, "lon": 129, "room": "A2"},
+			{"lat": 3, "lon": -78, "room": "P1.3"},
+			{"lat": 1.5, "lon": -69.5, "room": "P1.4"},
+			{"lat": 1, "lon": -66, "room": "Tělocvična Parléřova"},
+			{"lat": 1, "lon": -64.5, "room": "Hala"},
+			{"lat": -2.3, "lon": 41, "room": "P1.1"},
+			{"lat": -0.6, "lon": 39, "room": "P1.2"}
 		],
 		"minimap": {
 			"angle": 147,
 			"top": "-92%",
 			"right": "-46%",
-			"map": "assets/map/1.png"
+			"map": "assets/map/1.png",
+			"doors": [
+				{"top": "8%", "left": "18.5%", "to": "A1"},
+				{"top": "8%", "left": "26.5%", "to": "A2"},
+				{"top": "8%", "left": "57%", "to": "P1.3"},
+				{"top": "8%", "left": "71%", "to": "P1.4"},
+				{"top": "20%", "left": "77.5%", "to": "Hala"},
+				{"top": "31.5%", "left": "45%", "to": "P1.2"},
+				{"top": "43%", "left": "44%", "to": "P1.1"}
+			]
 		}
 	},
 	"02": {
@@ -79,13 +94,27 @@
 		"paths": [
 			{"lat": 0, "lon": 240, "hall": "01", "tooltip": "Přejít na Parléřovu"},
 			{"lat": 15, "lon": 175, "hall": "05", "tooltip": "Jít o patro výše"},
-			{"lat": -10, "lon": 210, "hall": "07", "tooltip": "Jít do přízemí"}
+			{"lat": -10, "lon": 210, "hall": "07", "tooltip": "Jít do přízemí"},
+
+			{"lat": -10, "lon": -120, "room": "H1.3"},
+			{"lat": -9, "lon": -123, "room": "N1"},
+			{"lat": -8, "lon": -126, "room": "N2"},
+			{"lat": -11, "lon": 113, "room": "H1.2"},
+			{"lat": -8, "lon": 120, "room": "H1.1"}
 		],
 		"minimap": {
 			"angle": 145,
 			"top": "-13%",
 			"right": "-36%",
-			"map": "assets/map/1.png"
+			"map": "assets/map/1.png",
+			"doors": [
+				{"top": "67.5%", "left": "43%", "to": "N1"},
+				{"top": "61%", "left": "43.5%", "to": "N2"},
+				{"top": "55%", "left": "30%", "to": "Aula"},
+				{"top": "76%", "left": "41%", "to": "H1.3"},
+				{"top": "89%", "left": "19%", "to": "H1.2"},
+				{"top": "86%", "left": "5%", "to": "H1.1"}
+			]
 		}
 	},
 	"07": {

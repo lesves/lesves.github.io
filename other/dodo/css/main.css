@@ -16,6 +16,10 @@ em {
 	color: rgb(179, 179, 179);
 }
 
+a {
+	color: rgb(250, 250, 215);
+}
+
 #view {
 	width: 100vw;
 	height: 100vh;
@@ -56,7 +60,7 @@ em {
 .overlay-body {
 	position: relative;
 
-	width: 50vw;
+	width: 60vw;
 	min-height: 35vh;
 	max-height: 70vh;
 	margin: 50px auto;
@@ -79,6 +83,14 @@ em {
 }
 
 .buttons {
+	display: flex;
+	flex-direction: row;
+	/*flex-wrap: wrap;*/
+	align-items: stretch;
+	justify-content: center;
+
+	width: 100%;
+
 	margin-top: 3em;
 	margin-bottom: 3em;
 	text-align: center;
@@ -86,8 +98,10 @@ em {
 
 .button {
 	padding: 1em 2em;
+	margin-left: 5px;
 	border: .2em solid;
 	color: white;
+
 	text-decoration: none;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -97,6 +111,15 @@ em {
 	transition-timing-function: ease-in-out;
 }
 
+.button.answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	flex: 1;
+	font-size: 0.8em;
+}
+
+
 .button:hover, .button:active {
 	color: rgba(5, 5, 40, 0.7);
 	background: white;
@@ -105,6 +128,7 @@ em {
 .button.disabled {
 	color: #BEBEBE;
 	cursor: not-allowed;
+	pointer-events: none;
 }
 
 .button.disabled:hover {
@@ -141,6 +165,7 @@ em {
 	top: 100px;
 	left: 50%;
 	width: 400px;
+	text-align: center;
 	transform: translate(-50%, 0);
 	padding: 25px 50px 5px 50px;
 	z-index: 667;
@@ -177,4 +202,17 @@ em {
 	width: 8%;
 	top: -92%;
 	right: -46%;
+}
+
+#minimap-markers {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0%;
+}
+
+#minimap-marker {
+	position: absolute;
+	width: 5%;
+	cursor: pointer;
 }

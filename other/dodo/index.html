@@ -8,10 +8,21 @@
 		<meta charset="utf-8" />
 		<title>Gymnázium Jana Keplera - Den otevřených dveří</title>
 		<script src="loader.js"></script>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-833LLLNBGR"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-833LLLNBGR');
+		</script>
 	</head>
 	<body>
 		<div id="view"></div>
-		<div id="minimap"><img id="minimap-bg" src="assets/map/3.png"><img id="minimap-player" src="assets/map/player.png"></div>
+		<div id="minimap"><img id="minimap-bg" src="assets/map/3.png"><img id="minimap-player" src="assets/map/player.png"><div id="minimap-markers">'<img src="assets/map/door.png" id="minimap-marker"></div>
+		</div>
 		<div id="overlay">
 			<div class="overlay-body" id="intro">
 				<h2>Vážení a ctění uchazeči, vítejte na Dni Otevřených Dveří Online!</h2>
