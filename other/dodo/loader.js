@@ -82,8 +82,8 @@ window.onload = function() {
     var button8 = document.getElementById("eightyear");
 
     if (button4 && button8) {
-        button4.addEventListener("click", (event) => { yearSelect(true);  if (loadStep == loadSteps) {start()} });
-        button8.addEventListener("click", (event) => { yearSelect(false); if (loadStep == loadSteps) {start()} });
+        button4.addEventListener("click", (event) => { yearSelect(true);  if (loadStep == loadSteps) {start_app()} });
+        button8.addEventListener("click", (event) => { yearSelect(false); if (loadStep == loadSteps) {start_app()} });
     }
 }
 
@@ -111,7 +111,7 @@ function yearSelect(isFouryear) {
 
 function resourceReadyCallback() {
     if (yearSelected)
-        start();
+        start_app();
 }
 
 function partialCallback() {
@@ -119,8 +119,8 @@ function partialCallback() {
     document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
 }
 
-function start() {
+function start_app() {
     var overlay = document.getElementById("overlay");
     if (overlay) { overlay.style.filter = "blur(2px)" };
-    window.start()
+    window.start(fouryear)
 }

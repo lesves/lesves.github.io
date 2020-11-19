@@ -19,14 +19,14 @@
 			"top": "-92%",
 			"right": "-46%",
 			"map": "assets/map/1.png",
-			"doors": [
-				{"top": "8%", "left": "18.5%", "to": "A1"},
-				{"top": "8%", "left": "26.5%", "to": "A2"},
-				{"top": "8%", "left": "57%", "to": "P1.3"},
-				{"top": "8%", "left": "71%", "to": "P1.4"},
-				{"top": "20%", "left": "77.5%", "to": "Hala"},
-				{"top": "31.5%", "left": "45%", "to": "P1.2"},
-				{"top": "43%", "left": "44%", "to": "P1.1"}
+			"markers": [
+				{"top": "8%", "left": "18.5%", "type": "door", "to": "A1"},
+				{"top": "8%", "left": "26.5%", "type": "door", "to": "A2"},
+				{"top": "8%", "left": "57%", "type": "door", "to": "P1.3"},
+				{"top": "8%", "left": "71%", "type": "door", "to": "P1.4"},
+				{"top": "20%", "left": "77.5%", "type": "door", "to": "Hala"},
+				{"top": "31.5%", "left": "45%", "type": "door", "to": "P1.2"},
+				{"top": "43%", "left": "44%", "type": "door", "to": "P1.1"}
 			]
 		}
 	},
@@ -42,7 +42,20 @@
 			"angle": 206,
 			"top": "-92%",
 			"right": "-46%",
-			"map": "assets/map/2.png"
+			"map": "assets/map/2.png",
+			"markers": [
+				{"top": "7%", "left": "48.5%", "type": "door", "to": "\u0159editelna"},
+				{"top": "7%", "left": "53.5%", "type": "door", "to": "z\u00e1stupci"},
+				{"top": "7%", "left": "84.5%", "type": "door", "to": "USV"},
+				{"top": "7%", "left": "43%", "type": "door", "to": "Sekretari\u00e1t"},
+				{"top": "7%", "left": "32%", "type": "door", "to": "SBO"},
+				{"top": "10%", "left": "29%", "type": "door", "to": "Kuchy\u0148ka"},
+				{"top": "12.5%", "left": "84.5%", "type": "door", "to": "Knihovna"},
+				{"top": "7%", "left": "60%", "type": "door", "to": "Kabinet \u010cJ"},
+				{"top": "7%", "left": "71.5%", "type": "door", "to": "P2.3"},
+				{"top": "32%", "left": "45%", "type": "door", "to": "P2.2"},
+				{"top": "43%", "left": "44%", "type": "door", "to": "P2.1"}
+			]
 		}
 	},
 	"03": {
@@ -56,7 +69,18 @@
 			"angle": 215,
 			"top": "-92%",
 			"right": "-48%",
-			"map": "assets/map/3.png"
+			"map": "assets/map/3.png",
+			"markers": [
+				{"top": "14%", "left": "81.5%", "type": "door", "to": "Posluch\u00e1rna chemie"},
+				{"top": "10%", "left": "29%", "type": "door", "to": "Terasa (v\u010del\u00edn)"},
+				{"top": "11%", "left": "84.5%", "type": "door", "to": "V\u00e1hovna"},
+				{"top": "7%", "left": "82.5%", "type": "door", "to": "LChe"},
+				{"top": "8%", "left": "71.5%", "type": "door", "to": "LBi"},
+				{"top": "8%", "left": "58%", "type": "door", "to": "P3.4"},
+				{"top": "8%", "left": "39.5%", "type": "door", "to": "P3.3"},
+				{"top": "32%", "left": "45%", "type": "door", "to": "P3.2"},
+				{"top": "43%", "left": "44%", "type": "door", "to": "P3.1"}
+			]
 		}
 	},
 	"04": {
@@ -70,7 +94,14 @@
 			"angle": 180,
 			"top": "-13%",
 			"right": "-36%",
-			"map": "assets/map/3.png"
+			"map": "assets/map/3.png",
+			"markers": [
+				{"top": "56%", "left": "44%", "type": "door", "to": "PoM"},
+				{"top": "66.5%", "left": "43%", "type": "door", "to": "PoV"},
+				{"top": "86%", "left": "6%", "type": "door", "to": "H3.1"},
+				{"top": "89%", "left": "19%", "type": "door", "to": "H3.2"},
+				{"top": "76%", "left": "41%", "type": "door", "to": "H3.3"}
+			]
 		}
 	},
 	"05": {
@@ -85,7 +116,13 @@
 			"angle": 275,
 			"top": "-13%",
 			"right": "-36%",
-			"map": "assets/map/2.png"
+			"map": "assets/map/2.png",
+			"markers": [
+				{"top": "66.5%", "left": "43%", "type": "door", "to": "LFy"},
+				{"top": "86%", "left": "6%", "type": "door", "to": "H2.1"},
+				{"top": "89%", "left": "19%", "type": "door", "to": "H2.2"},
+				{"top": "76%", "left": "41%", "type": "door", "to": "H2.3"}
+			]
 		}
 	},
 	"06": {
@@ -95,7 +132,6 @@
 			{"lat": 0, "lon": 240, "hall": "01", "tooltip": "Přejít na Parléřovu"},
 			{"lat": 15, "lon": 175, "hall": "05", "tooltip": "Jít o patro výše"},
 			{"lat": -10, "lon": 210, "hall": "07", "tooltip": "Jít do přízemí"},
-
 			{"lat": -10, "lon": -120, "room": "H1.3"},
 			{"lat": -9, "lon": -123, "room": "N1"},
 			{"lat": -8, "lon": -126, "room": "N2"},
@@ -107,13 +143,13 @@
 			"top": "-13%",
 			"right": "-36%",
 			"map": "assets/map/1.png",
-			"doors": [
+			"markers": [
 				{"top": "67.5%", "left": "43%", "to": "N1"},
 				{"top": "61%", "left": "43.5%", "to": "N2"},
 				{"top": "55%", "left": "30%", "to": "Aula"},
 				{"top": "76%", "left": "41%", "to": "H1.3"},
 				{"top": "89%", "left": "19%", "to": "H1.2"},
-				{"top": "86%", "left": "5%", "to": "H1.1"}
+				{"top": "86%", "left": "6%", "to": "H1.1"}
 			]
 		}
 	},
@@ -127,7 +163,9 @@
 			"angle": 350,
 			"top": "-13%",
 			"right": "-36%",
-			"map": "assets/map/0.png"
+			"map": "assets/map/0.png",
+			"markers": [
+			]
 		}
 	}
 }
