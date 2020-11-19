@@ -9,6 +9,7 @@ var facts = [
 
 var fouryear;
 var yearSelected;
+var loader_on = false;
 var loadStep = 0;
 var loadSteps = Infinity;
 var int;
@@ -82,8 +83,8 @@ window.onload = function() {
     var button8 = document.getElementById("eightyear");
 
     if (button4 && button8) {
-        button4.addEventListener("click", (event) => { yearSelect(true);  if (loadStep == loadSteps) {start_app()} });
-        button8.addEventListener("click", (event) => { yearSelect(false); if (loadStep == loadSteps) {start_app()} });
+        button4.addEventListener("click", (event) => { yearSelect(true); });
+        button8.addEventListener("click", (event) => { yearSelect(false); });
     }
 }
 
@@ -92,6 +93,20 @@ function yearSelect(isFouryear) {
     yearSelected = true;
 
     document.getElementById("intro").style.display = "none";
+    document.getElementById("introvideo").style.display = "block";
+
+    document.getElementById("introcontinue").addEventListener("click", (event) => {
+        loading_screen();
+        if (loadStep == loadSteps) {
+            start_app();
+        }
+    });
+}
+
+function loading_screen() {
+    loader_on = true;
+
+    document.getElementById("introvideo").style.display = "none";
     document.getElementById("loader").style.display = "block";
 
     document.getElementById("fact").innerHTML = "<em>" + facts[fact_index] + "</em>";
@@ -110,7 +125,7 @@ function yearSelect(isFouryear) {
 
 
 function resourceReadyCallback() {
-    if (yearSelected)
+    if (loader_on)
         start_app();
 }
 
