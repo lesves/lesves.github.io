@@ -67,7 +67,7 @@ a {
 	overflow: auto;
 }
 
-.overlay-body video, .overlay-body iframe {
+.overlay-body video, .overlay-body iframe, .overlay-body embed {
 	margin-top: 15px;
 	width: 100%;
 	height: 56.25%;
