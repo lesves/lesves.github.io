@@ -1,1 +1,3 @@
 Vítejte v budově Gymnázia Jana Keplera, právě se nacházíte v první místnosti, kterou vidí učitelé a návštěvy, když vchází do školy. Můžete otáčet svůj pohled a přesouvat se pomocí kliknutelných bodů v panoramatu. Vpravo nahoře vidíte minimapu, na kterou lze také klikat. V každé třídě může být nějaká otázka, za správnou odpověď získáte pět bodů a za špatnou jeden ztratíte. Váš počet bodů se zobrazuje na spodní liště. Některé místnosti mohou být nejprve zavřené a až s dostatečným počtem bodů se otevřou. Projděte všechny třídy, odpovězte na otázky, získejte body a dokončete cestu podáním přihlášky.
+
+Prohlídku pro vás naprogramovali Lukáš Veškrna, Petr Šícho, Vojtěch Votruba. Obsah byl vytvořen učitelským sborem a studenty GJK.
