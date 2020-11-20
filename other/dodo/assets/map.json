@@ -4,7 +4,7 @@
 		"pano": "assets/pano/01.jpg",
 		"paths": [
 			{"lat": 5, "lon": 110, "hall": "02", "tooltip": "Jít o patro výše."},
-			{"lat": 3, "lon": 36.5, "hall": "06", "tooltip": "Přejít na Hládkov"},
+			{"lat": 3, "lon": 36.5, "hall": "06", "tooltip": "Přejít na Hládkov."},
 			{"lat": -1.5, "lon": 127.5, "room": "A1"},
 			{"lat": -1.5, "lon": 129, "room": "A2"},
 			{"lat": -2.3, "lon": 41, "room": "P1.1"},
@@ -26,7 +26,8 @@
 				{"top": "8%", "left": "71%", "type": "door", "to": "P1.4"},
 				{"top": "20%", "left": "77.5%", "type": "door", "to": "Hala"},
 				{"top": "31.5%", "left": "45%", "type": "door", "to": "P1.2"},
-				{"top": "43%", "left": "44%", "type": "door", "to": "P1.1"}
+				{"top": "43%", "left": "44%", "type": "door", "to": "P1.1"},
+				{"top": "55%", "left": "44%", "transform": "rotate(185deg)", "type": "hall", "to": "06", "tooltip": "Přejít na Hládkov."}
 			]
 		}
 	},
@@ -65,7 +66,8 @@
 				{"top": "7%", "left": "60%", "type": "door", "to": "Kabinet \u010cJ"},
 				{"top": "7%", "left": "71.5%", "type": "door", "to": "P2.3"},
 				{"top": "32%", "left": "45%", "type": "door", "to": "P2.2"},
-				{"top": "43%", "left": "44%", "type": "door", "to": "P2.1"}
+				{"top": "43%", "left": "44%", "type": "door", "to": "P2.1"},
+				{"top": "55%", "left": "44%", "transform": "rotate(185deg)", "type": "hall", "to": "05", "tooltip": "Přejít na Hládkov."}
 			]
 		}
 	},
@@ -103,7 +105,8 @@
 				{"top": "8%", "left": "58%", "type": "door", "to": "P3.4"},
 				{"top": "8%", "left": "39.5%", "type": "door", "to": "P3.3"},
 				{"top": "32%", "left": "45%", "type": "door", "to": "P3.2"},
-				{"top": "43%", "left": "44%", "type": "door", "to": "P3.1"}
+				{"top": "43%", "left": "44%", "type": "door", "to": "P3.1"},
+				{"top": "55%", "left": "44%", "transform": "rotate(185deg)", "type": "hall", "to": "04", "tooltip": "Přejít na Hládkov."}
 			]
 		}
 	},
@@ -129,7 +132,8 @@
 				{"top": "66.5%", "left": "43%", "type": "door", "to": "PoV"},
 				{"top": "86%", "left": "6%", "type": "door", "to": "H3.1"},
 				{"top": "89%", "left": "19%", "type": "door", "to": "H3.2"},
-				{"top": "76%", "left": "41%", "type": "door", "to": "H3.3"}
+				{"top": "76%", "left": "41%", "type": "door", "to": "H3.3"},
+				{"top": "55%", "left": "44%", "transform": "rotate(5deg)", "type": "hall", "to": "03", "tooltip": "Přejít na Parléřovu."}
 			]
 		}
 	},
@@ -154,7 +158,8 @@
 				{"top": "66.5%", "left": "43%", "type": "door", "to": "LFy"},
 				{"top": "86%", "left": "6%", "type": "door", "to": "H2.1"},
 				{"top": "89%", "left": "19%", "type": "door", "to": "H2.2"},
-				{"top": "76%", "left": "41%", "type": "door", "to": "H2.3"}
+				{"top": "76%", "left": "41%", "type": "door", "to": "H2.3"},
+				{"top": "55%", "left": "44%", "transform": "rotate(5deg)", "type": "hall", "to": "02", "tooltip": "Přejít na Parléřovu."}
 			]
 		}
 	},
@@ -178,12 +183,13 @@
 			"right": "-36%",
 			"map": "assets/map/1.png",
 			"markers": [
-				{"top": "67.5%", "left": "43%", "to": "N1"},
-				{"top": "61%", "left": "43.5%", "to": "N2"},
-				{"top": "55%", "left": "30%", "to": "Aula"},
-				{"top": "76%", "left": "41%", "to": "H1.3"},
-				{"top": "89%", "left": "19%", "to": "H1.2"},
-				{"top": "86%", "left": "6%", "to": "H1.1"}
+				{"top": "67.5%", "left": "43%", "type": "door", "to": "N1"},
+				{"top": "61%", "left": "43.5%", "type": "door", "to": "N2"},
+				{"top": "55%", "left": "30%", "type": "door", "to": "Aula"},
+				{"top": "76%", "left": "41%", "type": "door", "to": "H1.3"},
+				{"top": "89%", "left": "19%", "type": "door", "to": "H1.2"},
+				{"top": "86%", "left": "6%", "type": "door", "to": "H1.1"},
+				{"top": "55%", "left": "44%", "transform": "rotate(5deg)", "type": "hall", "to": "01", "tooltip": "Přejít na Parléřovu."}
 			]
 		}
 	},

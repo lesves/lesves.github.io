@@ -26,7 +26,6 @@ a {
 	position: absolute;
 	top: 0;
 	left: 0;
-
 	overflow: hidden;
 }
 
@@ -189,6 +188,8 @@ a {
 	position: absolute;
 	right: 1vw;
 	top: 1vw;
+	height: 20vw;
+	width: 20vw;
 	width: min(20vw, 50vh);
 	height: min(20vw, 50vh);
 	visibility: hidden;
