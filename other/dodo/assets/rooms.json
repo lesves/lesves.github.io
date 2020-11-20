@@ -1,4 +1,10 @@
 {
+ "comms": {
+  "bg": "assets/gjk-wide.jpg",
+  "tooltip": "Zde můžete komunikovat se studenty GJK.",
+  "unlocks": 0,
+  "url": "assets/rooms/comms.html"
+ },
  "A1": {
   "bg": "assets/photos/a1.jpg",
   "tooltip": "A1 &mdash; Je pot\u0159eba 35 bod\u016f pro vstup.",

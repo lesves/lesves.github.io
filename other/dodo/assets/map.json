@@ -3,6 +3,7 @@
 		"name": "Parléřova, 1. patro",
 		"pano": "assets/pano/01.jpg",
 		"paths": [
+			{"lat": 0, "lon": 0, "room": "comms"},
 			{"lat": 5, "lon": 110, "hall": "02", "tooltip": "Jít o patro výše."},
 			{"lat": 3, "lon": 36.5, "hall": "06", "tooltip": "Přejít na Hládkov."},
 			{"lat": -1.5, "lon": 127.5, "room": "A1"},

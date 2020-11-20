@@ -86,6 +86,9 @@ window.onload = function() {
         button4.addEventListener("click", (event) => { yearSelect(true); });
         button8.addEventListener("click", (event) => { yearSelect(false); });
     }
+    if (localStorage.save !== undefined && confirm("Chcete načíst uložený stav hry?")) {
+        yearSelect(undefined);
+    }
 }
 
 function yearSelect(isFouryear) {
