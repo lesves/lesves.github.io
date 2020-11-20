@@ -113,6 +113,12 @@ a {
 	-webkit-transition: color 0.25s, background 0.25s;
 	transition: color 0.25s, background 0.25s;
 	transition-timing-function: ease-in-out;
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .button.answer {
@@ -201,6 +207,12 @@ a {
 #minimap-bg {
 	height: 100%;
 	width: 100%;
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 #minimap-player {
@@ -209,6 +221,13 @@ a {
 	top: -92%;
 	right: -46%;
 	z-index: 665;
+	pointer-events:none;
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 #minimap-markers {
@@ -222,4 +241,10 @@ a {
 	position: absolute;
 	width: 5%;
 	cursor: pointer;
+	user-drag: none; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
