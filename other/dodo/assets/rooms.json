@@ -84,13 +84,13 @@
   "url": "assets/rooms/hala.html"
  },
  "Kabinet \u010cJ": {
-  "bg": "assets/photos/kabinet-cj.jpg",
+  "bg": "assets/photos/kabCJ.jpg",
   "tooltip": "Kabinet \u010cJ &mdash; Je pot\u0159eba 10 bod\u016f pro vstup.",
   "unlocks": 10,
   "url": "assets/rooms/kabinet-cj.html"
  },
  "Knihovna": {
-  "bg": "assets/photos/knihovna.jpg",
+  "bg": "assets/photos/terasa_knih.jpg",
   "tooltip": "Knihovna &mdash; 3v1 (kniha - k\u00e1va -?) &mdash; Je pot\u0159eba 15 bod\u016f pro vstup.",
   "unlocks": 15,
   "url": "assets/rooms/knihovna.html"
@@ -210,7 +210,7 @@
   "url": "assets/rooms/pov.html"
  },
  "Posluch\u00e1rna chemie": {
-  "bg": "assets/photos/poslucharna-chemie.jpg",
+  "bg": "assets/photos/pch.jpg",
   "tooltip": "Posluch\u00e1rna chemie &mdash; VSTUPUJTE BEZ OBAV. Povrch stol\u016f je ze speci\u00e1ln\u00edho ohnivzdorn\u00e9ho a kyselinovzdorn\u00e9ho materi\u00e1lu. &mdash; Je pot\u0159eba 10 bod\u016f pro vstup.",
   "unlocks": 10,
   "url": "assets/rooms/poslucharna-chemie.html"
@@ -258,7 +258,7 @@
   "url": "assets/rooms/vv-hv.html"
  },
  "Vchod Hl\u00e1dkov": {
-  "bg": "assets/photos/vchod-hladkov.jpg",
+  "bg": "assets/photos/vchodH.jpg",
   "tooltip": "Vchod Hl\u00e1dkov",
   "unlocks": 0,
   "url": "assets/rooms/vchod-hladkov.html"

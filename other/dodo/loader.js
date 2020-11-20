@@ -87,7 +87,7 @@ window.onload = function() {
         button8.addEventListener("click", (event) => { yearSelect(false); });
     }
     if (localStorage.save !== undefined && confirm("Chcete načíst uložený stav hry?")) {
-        yearSelect(undefined);
+        loading_screen();
     }
 }
 
