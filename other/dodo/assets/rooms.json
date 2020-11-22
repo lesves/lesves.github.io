@@ -5,6 +5,24 @@
   "unlocks": 0,
   "url": "assets/rooms/comms.html"
  },
+ "jidelna": {
+    "bg": "assets/photos/jidelna.jpg",
+    "tooltip": "Jídelna &mdash; Je pot\u0159eba 0 bod\u016f pro vstup.",
+    "unlocks": 0,
+    "url": "assets/rooms/jidelna.html"
+},
+"kurzygo": {
+    "bg": "assets/photos/kurzygo.jpg",
+    "tooltip": "Kurzy GO &mdash; Je pot\u0159eba 0 bod\u016f pro vstup.",
+    "unlocks": 0,
+    "url": "assets/rooms/kurzygo.html"
+},
+"dofe": {
+    "bg": "assets/photos/dofe.jpg",
+    "tooltip": "DofE &mdash; Je pot\u0159eba 0 bod\u016f pro vstup.",
+    "unlocks": 0,
+    "url": "assets/rooms/dofe.html"
+},
  "A1": {
   "bg": "assets/photos/a1.jpg",
   "tooltip": "A1 &mdash; Je pot\u0159eba 35 bod\u016f pro vstup.",

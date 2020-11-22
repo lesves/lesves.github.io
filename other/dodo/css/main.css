@@ -190,8 +190,21 @@ a {
 	border: 1px solid rgb(250, 250, 215);
 	font-family: "Spectral", serif;
 
+
 	/*color: black;
 	background: rgba(255, 255, 255, 0.9);*/
+}
+
+.tutorialdiv p {
+	margin: 0;
+	margin-bottom: 3px;
+	font-size: 0.9em;
+}
+
+.tutorialdiv + .buttons {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 0;
 }
 
 #minimap {
