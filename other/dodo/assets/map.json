@@ -29,6 +29,7 @@
 				{"top": "8%", "left": "57%", "type": "door", "to": "P1.3"},
 				{"top": "8%", "left": "71%", "type": "door", "to": "P1.4"},
 				{"top": "20%", "left": "77.5%", "type": "door", "to": "Hala"},
+				{"top": "9%", "left": "80%", "type": "door", "to": "Tělocvična Parléřova"},
 				{"top": "31.5%", "left": "45%", "type": "door", "to": "P1.2"},
 				{"top": "43%", "left": "44%", "type": "door", "to": "P1.1"},
 				{"top": "11%", "left": "36%", "transform": "rotate(272.5deg)", "type": "hall", "to": "02", "tooltip": "Jít nahoru."},
