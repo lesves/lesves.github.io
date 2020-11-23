@@ -12,7 +12,7 @@
     "url": "assets/rooms/jidelna.html"
 },
 "kurzygo": {
-    "bg": "assets/photos/kurzygo.jpg",
+    "bg": "assets/photos/kurzy-go.jpg",
     "tooltip": "Kurzy GO",
     "unlocks": 0,
     "url": "assets/rooms/kurzygo.html"
@@ -234,7 +234,7 @@
   "url": "assets/rooms/poslucharna-chemie.html"
  },
  "SBO": {
-  "bg": "assets/photos/sbo.jpg",
+  "bg": "assets/photos/sborovna.jpg",
   "tooltip": "SBO",
   "unlocks": 0,
   "url": "assets/rooms/sbo.html"
@@ -252,13 +252,13 @@
   "url": "assets/rooms/stena.html"
  },
  "Terasa (v\u010del\u00edn)": {
-  "bg": "assets/photos/terasa-vcelin.jpg",
+  "bg": "assets/photos/terasa_vcely.jpg",
   "tooltip": "Terasa (v\u010del\u00edn) &mdash; Je pot\u0159eba 30 bod\u016f pro vstup.",
   "unlocks": 30,
   "url": "assets/rooms/terasa-vcelin.html"
  },
  "T\u011blocvi\u010dna Parl\u00e9\u0159ova": {
-  "bg": "assets/photos/telocvicna-parlerova.jpg",
+  "bg": "assets/photos/tpa.jpg",
   "tooltip": "T\u011blocvi\u010dna Parl\u00e9\u0159ova &mdash; Je pot\u0159eba 10 bod\u016f pro vstup.",
   "unlocks": 10,
   "url": "assets/rooms/telocvicna-parlerova.html"
@@ -270,7 +270,7 @@
   "url": "assets/rooms/usv.html"
  },
  "VV+HV": {
-  "bg": "assets/photos/vv-hv.jpg",
+  "bg": "assets/photos/uvv.jpg",
   "tooltip": "VV+HV &mdash; Zde se um\u011bn\u00ed dot\u00fdk\u00e1 nebe. &mdash; Je pot\u0159eba 3 bod\u016f pro vstup.",
   "unlocks": 3,
   "url": "assets/rooms/vv-hv.html"

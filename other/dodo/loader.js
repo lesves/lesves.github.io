@@ -3,8 +3,7 @@ var facts = [
     'Gymnázium je vybaveno knihovnou, která obsahuje přes 16 000 knih.',
     'Motto: Per aspera ad astra.',
     'Škola má bezbariérový přístup.',
-    'Škola má kapacitu 590 žáků, v současné době má 20 tříd. ',
-    'Naše škola je nejlepší. :D',
+    'Škola má kapacitu 590 žáků, v současné době má 20 tříd. '
 ]
 
 var fouryear;
@@ -13,6 +12,9 @@ var loader_on = false;
 var loadStep = 0;
 var loadSteps = Infinity;
 var int;
+
+//var start_time = 1606219200
+var start_time = 106219200
 
 function include(filename, onload, id) {
     var head = document.getElementsByTagName('head')[0];
@@ -58,37 +60,27 @@ function resourcesLoad(Arr) {
 
 
 window.onload = function() {
-    include('bundle.js', function() {
-        loadStep += 1
-        document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
-        res = [ //Add all assets that should be preloaded for smooth play, they will be loaded to browser cache.
-            'assets/pano/01.jpg',
-            'assets/pano/02.jpg',
-            'assets/pano/03.jpg',
-            'assets/pano/04.jpg',
-            'assets/pano/05.jpg',
-            'assets/pano/06.jpg',
-            'assets/pano/07.jpg',
-            'assets/map/0.png',
-            'assets/map/1.png',
-            'assets/map/2.png',
-            'assets/map/3.png',
-            'assets/map/player.png',
-            'assets/cup.png',
-        ];
-        loadSteps = res.length+1;
-        resourcesLoad(res);
-    })
-    var button4 = document.getElementById("fouryear");
-    var button8 = document.getElementById("eightyear");
+    if (Date.now()/1000 > start_time) {
+        load_app()
+    } else {
+        document.getElementById("timeout").style.display = "block"
+        time_dif = start_time - Date.now()/1000;
+        counter = time_display(time_dif)
+        document.getElementById("timeout-counter").innerHTML = counter
 
-    if (button4 && button8) {
-        button4.addEventListener("click", (event) => { yearSelect(true); });
-        button8.addEventListener("click", (event) => { yearSelect(false); });
+        timeout_interval = setInterval(() => {
+            time_dif = start_time - Date.now()/1000;
+            if (time_dif > 0) {
+                counter = time_display(time_dif)
+                document.getElementById("timeout-counter").innerHTML = counter
+            } else {
+                clearInterval(timeout_interval)
+                load_app();
+            }
+        }, 1000)
     }
-    if (localStorage.save !== undefined && confirm("Chcete načíst uložený stav hry?")) {
-        loading_screen();
-    }
+
+   
 }
 
 function yearSelect(isFouryear) {
@@ -125,7 +117,7 @@ function loading_screen() {
         }
 
         fact.innerHTML = facts[fact_index];
-    }, 2000);
+    }, 3000);
 }
 
 
@@ -144,4 +136,72 @@ function start_app() {
     if (overlay) { overlay.style.filter = "blur(2px)" };
     window.start(fouryear);
     document.body.style.backgroundImage = "none";
+}
+
+function load_app() {
+    document.getElementById("intro").style.display = "block"
+    include('bundle.js', function() {
+        loadStep += 1
+        document.getElementById("loader-bar").style.width = (loadStep/loadSteps*100)+"%";
+        res = [ //Add all assets that should be preloaded for smooth play, they will be loaded to browser cache.
+            'assets/pano/01.jpg',
+            'assets/pano/02.jpg',
+            'assets/pano/03.jpg',
+            'assets/pano/04.jpg',
+            'assets/pano/05.jpg',
+            'assets/pano/06.jpg',
+            'assets/pano/07.jpg',
+            'assets/map/0.png',
+            'assets/map/1.png',
+            'assets/map/2.png',
+            'assets/map/3.png',
+            'assets/map/player.png'
+        ];
+        loadSteps = res.length+1;
+        resourcesLoad(res);
+    })
+    var button4 = document.getElementById("fouryear");
+    var button8 = document.getElementById("eightyear");
+
+    if (button4 && button8) {
+        button4.addEventListener("click", (event) => { yearSelect(true); });
+        button8.addEventListener("click", (event) => { yearSelect(false); });
+    }
+    if (localStorage.save !== undefined && confirm("Chcete načíst uložený stav hry?")) {
+        document.getElementById("intro").style.display = "none";
+        loading_screen();
+    }
+}
+
+function time_display(time_dif) {
+    counter = ""
+    hours = Math.floor(time_dif/3600)
+    minutes = Math.ceil(time_dif/60%60)
+    seconds = Math.ceil(time_dif%60)
+    if (hours > 0) {
+        if(hours == 1) {
+            counter += String(hours)+" hodinu"
+        } else if(hours < 5) {
+            counter += String(hours)+" hodiny"
+        } else {
+            counter += String(hours)+" hodin"
+        }
+    }
+    counter += " a "
+    if(minutes == 1) {
+        counter += String(minutes)+" minutu"
+    } else if(minutes < 5) {
+        counter += String(minutes)+" minuty"
+    } else {
+        counter += String(minutes)+" minut"
+    }
+    counter += " a "
+    if(seconds == 1) {
+        counter += String(seconds)+" vteřinu"
+    } else if(seconds < 5) {
+        counter += String(seconds)+" vteřiny"
+    } else {
+        counter += String(seconds)+" vteřin"
+    }
+    return counter
 }

@@ -22,7 +22,7 @@
 			"right": "-46%",
 			"map": "assets/map/1.png",
 			"markers": [
-				{"top": "15.5%", "left": "50%", "type": "door", "to": "comms"},
+				{"top": "15.5%", "left": "52%", "type": "comms", "to": "comms"},
 				{"top": "15%", "left": "36%", "type": "door", "to": "jidelna"},
 				{"top": "8%", "left": "18.5%", "type": "door", "to": "A1"},
 				{"top": "8%", "left": "26.5%", "type": "door", "to": "A2"},
@@ -65,9 +65,9 @@
 			"right": "-46%",
 			"map": "assets/map/2.png",
 			"markers": [
-				{"top": "16%", "left": "42.5%", "type": "door", "to": "kurzygo"},
-				{"top": "7%", "left": "28%", "type": "door", "to": "dofe"},
-				{"top": "15.5%", "left": "50%", "type": "door", "to": "comms"},
+				{"top": "16%", "left": "42.5%", "type": "pin", "to": "kurzygo"},
+				{"top": "7%", "left": "28%", "type": "pin", "to": "dofe"},
+				{"top": "15.5%", "left": "52%", "type": "comms", "to": "comms"},
 				{"top": "7%", "left": "48.5%", "type": "door", "to": "\u0159editelna"},
 				{"top": "7%", "left": "53.5%", "type": "door", "to": "z\u00e1stupci"},
 				{"top": "7%", "left": "84.5%", "type": "door", "to": "USV"},
@@ -111,7 +111,7 @@
 			"right": "-48%",
 			"map": "assets/map/3.png",
 			"markers": [
-				{"top": "15.5%", "left": "50%", "type": "door", "to": "comms"},
+				{"top": "15.5%", "left": "52%", "type": "comms", "to": "comms"},
 				{"top": "14%", "left": "81.5%", "type": "door", "to": "Posluch\u00e1rna chemie"},
 				{"top": "10%", "left": "29%", "type": "door", "to": "Terasa (v\u010del\u00edn)"},
 				{"top": "11%", "left": "84.5%", "type": "door", "to": "V\u00e1hovna"},
