@@ -13,8 +13,8 @@ var loadStep = 0;
 var loadSteps = Infinity;
 var int;
 
-//var start_time = 1606219200
-var start_time = 106219200
+var start_time = 1606219200
+//var start_time = 106219200
 
 function include(filename, onload, id) {
     var head = document.getElementsByTagName('head')[0];
