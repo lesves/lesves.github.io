@@ -1,0 +1,234 @@
+<hmtl>
+
+<svg width="3840" height="2160" viewBox="0 0 3840 2160">
+<rect id="bg" width="100%" height="100%" fill="red"/>
+<filter id="f">
+	<feFlood id="text" flood-color="blue" result="flood"/>
+	<feComposite in2="SourceAlpha" in="flood" operator="in" result="stuff"/>
+</filter>
+<image width="100%" height="100%" href="lucernaŠerpy.png" filter="url(#f)"/>
+<rect id="bg" width="100%" height="100%" fill="#fffee3" fill-opacity="0.1"/>
+<image width="100%" height="100%" href="lucernaAlpha.png"/>
+</svg>
+
+<style type="text/css">
+	/*
+.dropbtn {
+  background-color: #F42069;
+  color: #000000;
+  padding: 16px;
+  font-size: 50px;
+  border: none;
+  cursor: pointer;
+}
+.dropbtn2 {
+  background-color: #F42069;
+  color: #000000;
+  padding: 100px;
+  font-size: 50px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown-content button {
+  color: black;
+  width: 50px
+  padding: 50px;
+  font-size: 50px;
+  text-decoration: none;
+  display: flex;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown {
+  position: relative;
+  top: -2100px;
+  left: 30px;
+  display: inline-block;
+}
+.show {display: block;}
+*/
+
+ul {
+  position: relative;
+  top: -2250px;
+  list-style-type: none;
+  padding-bottom: -20px;
+  padding-top: -20px;
+  font-size: 100px;
+  border: 5px solid black;
+  background-color: rgba(255, 255, 255, 0.65);
+  max-width:3790px;
+}
+
+
+.listItemsBitch li {
+	color: black;
+ 	padding: 5px;
+ 	text-decoration: none;
+ 	display: inline;
+}
+.buttonsBitch{
+  color: black;
+  font-size: 50%;
+  text-decoration: none;
+  display: inline-block;
+}
+
+
+</style>
+<!--
+<div class="dropdown">
+	<button onclick="myFunction()" class="dropbtn">Šerpy</button>
+		<div id="serpy" class="dropdown-content">
+    		
+  		</div>
+</div>
+<div class="dropdown2">
+	<button onclick="myFunction2()" class="dropbtn2">Text</button>
+		<div id="texty" class="dropdown-content">
+    		
+  		</div>
+</div>
+
+-->
+
+<ul id = "serpy2" class="ListItemsBitch">
+	 ŠERPY <br>
+
+</ul>
+
+<ul id = "texty2" class="listItemsBitch">
+	TEXT <br>
+</ul>
+
+<script type="text/javascript">
+var text = document.getElementById("text");
+var bg = document.getElementById("bg");
+console.log(text.getAttribute("flood-color"), bg);
+
+
+var colorDict = {"tmavě vínová":"#8a3b38","vínová":"#b84b68","červená":"#e63533","růžová":"#ee608a","světle růžová":"#ddb3c1","bílá":"#e0dee1","tmavě modrá":"#445485","modrá":"#4755ab","bledě modrá":"#79b5da","světle modrá":"#bdccd5","oranžová":"#ea7213","žlutá":"#e8c52b","černá":"#36302e","tyrkysová":"#0d87a6","tmavě zelená":"#375c46","zelená":"#17aa59","světle zelená":"#6fc5b8","béžová":"#d4b59f","zlatá satněco":"#b5852b","stříbrná":"#b9b6b1","zlatá":"#c9c0ad","zlatožlutá":"#e7a528","tmavě fialová":"#6d408d","fialová":"#ceb9d4","lososová":"#e9a181","šedá":"#b9b5ac","720":"#4e3030","425":"#3264bc","101":"#d5cbb0","631":"#d3729e","637":"#b3363a","Nějaká Meh":"#c4b59e","Zlatá zase":"#c08c36","Modrá meh":"#a9b7c4"};
+
+function myFunction() {
+  document.getElementById("serpy").classList.toggle("show");
+}
+function myFunction2() {
+  document.getElementById("texty").classList.toggle("show");
+}
+
+
+function changeBgColor(cols) {
+  //console.log(document.getElementById("bg").getAttribute("fill"));
+  document.getElementById("bg").setAttribute("fill", cols);
+  //console.log(cols);
+  //whiteAll()
+  //whiteAll()
+  highlight(cols);
+}
+
+function changeFgColor(cols) {
+  //console.log(document.getElementById("bg").getAttribute("fill"));
+  document.getElementById("text").setAttribute("flood-color", cols);
+  //console.log(cols);
+  //whiteAll()
+  highlightT(cols);
+}
+
+function print(){
+	console.log("42");
+
+}
+	
+for (var key in colorDict) {
+	var listItem = document.createElement("LI");
+	listItem.setAttribute("id", colorDict[key]);
+	var btn = document.createElement("BUTTON");
+	btn.setAttribute("onclick", "changeBgColor("+"\"" + colorDict[key]+"\""+")");
+	btn.setAttribute("class", "buttonsBitch");
+	btn.setAttribute("id", colorDict[key]+"B");
+	//console.log(btn.getAttribute("onclick"));
+	btn.innerHTML = key;
+	document.getElementById("serpy2").appendChild(listItem);
+	document.getElementById(colorDict[key]).appendChild(btn);
+}
+
+for (var key in colorDict) {
+	var listItem = document.createElement("LI");
+	listItem.setAttribute("id", colorDict[key]+"T");
+
+	var btn = document.createElement("BUTTON");
+	btn.setAttribute("onclick", "changeFgColor("+"\"" + colorDict[key]+"\""+")");
+	btn.setAttribute("class", "buttonsBitch");
+	btn.setAttribute("id", colorDict[key]+"BT");
+	//console.log(btn.getAttribute("onclick"));
+	btn.innerHTML = key;   
+	document.getElementById("texty2").appendChild(listItem);
+	document.getElementById(colorDict[key]+"T").appendChild(btn);
+}
+var buttons = document.querySelectorAll('.buttonsBitch');
+
+//console.log(buttons)
+function whiteAll(){
+	var a = 4;
+}
+
+function highlight(cols){
+	//console.log(cols);
+	for(var i in colorDict){
+		//console.log(cols)
+		//console.log(colorDict[i])
+		//console.log(colorDict[i] == cols)
+		if(colorDict[i] == cols){
+			//console.log(document.getElementById(cols + "B"))
+			document.getElementById(colorDict[i] + "B").style.backgroundColor = "red";
+		}
+		else {
+			document.getElementById(colorDict[i] + "B").style.backgroundColor = "white";
+		}
+
+		//document.getElementById(cols + "B").style.backgroundColor = "blue";
+	}
+	//document.getElementById(cols + "B").style.backgroundColor = "blue";
+	//console.log(document.getElementById(cols + "B"));
+}
+
+function highlightT(cols){
+	//console.log(cols);
+	for(var i in colorDict){
+		//console.log(cols)
+		//console.log(colorDict[i])
+		//console.log(colorDict[i] == cols)
+		if(colorDict[i] == cols){
+			//console.log(document.getElementById(cols + "BT"))
+			document.getElementById(colorDict[i] + "BT").style.backgroundColor = "red";
+		}
+		else {
+			document.getElementById(colorDict[i] + "BT").style.backgroundColor = "white";
+		}
+
+		//document.getElementById(cols + "B").style.backgroundColor = "blue";
+	}
+	//document.getElementById(cols + "B").style.backgroundColor = "blue";
+	//console.log(document.getElementById(cols + "B"));
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>
