@@ -1,0 +1,1 @@
+infoontxt='UKÁZAT INFO'; infoofftxt='SKRÝT INFO'; searchtxt='vložit hledaný výraz...';

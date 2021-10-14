@@ -1,0 +1,38 @@
+<!--
+body {
+  background: white;
+  background-image: none;
+}
+
+#displayarea {
+  border: none;
+  width: 100%;
+  background: white;
+}
+
+#screen {
+  width: 100%;
+}
+
+#toolbar, #leftmenu, #topbar, #footbar, #pagecleaner, .noprint {
+  display: none;
+}
+.clnotediv .cltextblock {
+  width: 99%;
+}
+.clbarl2, .clbar3, .clbarbodyl2, .clbarbody3, .treeareadiv, .item-list-box, .odd, .even {
+  border: 0px;
+  background: white;
+}
+.clgalcell {
+  border: solid black 1px;
+}
+.treediv, .treeenddiv {
+  background-image: URL("IMG/tree1w.gif");
+}
+
+.tree2div, .tree2enddiv {
+  background-image: URL("IMG/tree2w.gif");
+}
+
+-->
