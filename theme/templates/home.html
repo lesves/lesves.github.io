@@ -1,15 +1,25 @@
 {% extends "nav.html" %}
 
 {% block content %}
-	<h2>Articles</h2>
-	{% for article in articles %}
-		{% if article.status == "published" %}
-			<article class="preview article">
-				<h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
-				{#{% if article.summary %}
-					<summary>{{ article.summary|safe }} <a href="{{ article.url }}">Read more.</a></summary>
-				{% endif %}#}
-			</article>
-		{% endif %}
-	{% endfor %}
+	<h2>Články</h2>
+	<ul>
+		{% for article in articles %}
+			{% if article.status == "published" %}
+				<li class="preview article">
+					<h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+					{#{% if article.summary %}
+						<summary>{{ article.summary|safe }} <a href="{{ article.url }}">Read more.</a></summary>
+					{% endif %}#}
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+
+	<h2>Další</h2>
+	<ul>
+		<li><h3><a href="https://youtu.be/vq9eB66zeP4">Závěrečný projekt na výtvarku</a></h3></li>
+		<li><h3><a href="/other/dodo">Virtuální prohlídka školy</a></h3></li>
+		<li><h3><a href="/other/deadly-hangman">Smrticí šibenice</a></h3></li>
+		<li><h3><a href="/other/chess">Šachy</a></h3></li>
+	</ul>
 {% endblock %}
