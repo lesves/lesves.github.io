@@ -1,7 +1,9 @@
 {% extends "nav.html" %}
 
 {% block content %}
-	<h2>Články</h2>
+	<h3>Tady Lukáš; <a href="/page/about/">O mně</a></h3>
+
+	<h2>Články v jazyce anglickém</h2>
 	<ul>
 		{% for article in articles %}
 			{% if article.status == "published" %}
