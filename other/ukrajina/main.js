@@ -16,6 +16,7 @@ async function init() {
             let tr = document.createElement("tr");
 
             for (let j = 0; j < data[i].length; j++) {
+
                 if (i > 1 && data[i][j] == data[i-1][j]) {
                     lookup[i + "," + j] = lookup[(i-1) + "," + j]
                     lookup[i + "," + j].rowSpan += 1;
@@ -24,7 +25,10 @@ async function init() {
 
                     lookup_ids[data[i][j]] = data[i][j].toLowerCase().replaceAll(",", "").replaceAll(" ", "_");
 
-                    if (i != 0 && j != 0) {
+                    if (data[i][j] == "") {
+                        elem.innerHTML = "–";
+                        elem.style.textAlign = "center";
+                    } else if (i != 0 && j != 0) {
                         elem.innerHTML = '<a href="#' + lookup_ids[data[i][j]] + '">' + data[i][j] + "</a>";
                     } else {
                         elem.innerHTML = data[i][j];
