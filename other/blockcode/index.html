@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>Blockcode</title>
+		<meta charset="utf-8" />
+		<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Roboto&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+		<script src="scripts/drag.js"></script>
+		<script src="scripts/blocks.js"></script>
+	</head>
+	<body>
+		<ul id="menu">
+			<li><button onclick="run(document.getElementById('code').children);">Run</button></li>
+			<li><button onclick="save();">Save</button></li>
+			<li><button>Load</button></li>
+			<li><button onclick="clearcanvas();">Clear canvas</button></li>
+			<li><button onclick="clearcode();">Clear code</button></li>
+		</ul>
+		<div id="cols">
+			<div id="collection" class="column droptarget" ondrop="trash(event)" ondragover="dragover(event)" ondragleave="dragleave(event)">
+				<h2>Blocks</h2>
+				<div class="block blocklist control" data-command="repeat" draggable="true" ondragstart="drag(event)">
+					Repeat <input type="number" value="10" /> times
+					<div class="blockplace droptarget"></div>
+				</div>
+				<div class="block blocklist" data-command="say" draggable="true" ondragstart="drag(event)">
+					Say <input type="text"></input>
+				</div>
+				<div class="block blocklist" data-command="forward" draggable="true" ondragstart="drag(event)">
+					Forward <input type="number" value="10" /> steps
+				</div>
+				<div class="block blocklist" data-command="turnleft" draggable="true" ondragstart="drag(event)">
+					Turn <input type="number" value="10" /> degrees left
+				</div>
+				<div class="block blocklist" data-command="turnright" draggable="true" ondragstart="drag(event)">
+					Turn <input type="number" value="10" /> degrees right
+				</div>
+			</div>
+			<div id="code" class="column droptarget" ondrop="drop(event)" ondragover="dragover(event)" ondragleave="dragleave(event)">
+				<!--<h2>Code</h2>-->
+			</div>
+			<canvas id="result" class="column"></canvas>
+		</div>
+	</body>
+</html>
