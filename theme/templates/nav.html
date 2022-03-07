@@ -10,7 +10,7 @@
 			<a href="/" class="item">Domů</a>
 		{% endif %}
 		{% for page_ in pages %}
-			{% if page %}
+			{% if page and page == page_ %}
 				<span class="item">{{ page_.title }}</span>
 			{% else %}
 				<a href="{{ page_.url }}" class="item">{{ page_.title }}</a>
