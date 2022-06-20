@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Generátor BibTex citací pro webové stránky</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="description" content="" />
+		<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+
+		<script>
+			if (!Date.prototype.toISODate) {
+				Date.prototype.toISODate = function() {
+					return this.getFullYear() + '-' +
+						('0'+ (this.getMonth()+1)).slice(-2) + '-' +
+						('0'+ this.getDate()).slice(-2);
+				}
+			}
+
+			const template = (citeid, author, title, year, today, url) => `@misc{${citeid}, \n\
+    author = "${author}", \n\
+    title = "${title}", \n\
+    year = "${year}", \n\
+    howpublished = {\\url{${url}}}, \n\
+    note = "[online; cit. ${today}]" \n\
+}`
+
+			window.addEventListener("load", function() {
+				document.getElementById("id_button").addEventListener("click", function() {
+					let citeid_field = document.getElementById("id_author");
+					let author_field = document.getElementById("id_author");
+					let url_field = document.getElementById("id_url");
+					let result = document.getElementById("result");
+
+					fetch(url_field.value, {"headers": {"mode": "no-cors"}})
+						.then(response => response.text())
+						.then(data => {
+							let root = document.createElement("html");
+							root.innerHTML = data;
+							let title = root.getElementsByTagName("title")[0].innerHTML;
+
+							let today = new Date(Date.now());
+							let year = today.getFullYear();
+
+							let citeid = citeid_field.value ? citeid_field.value : author_field.value.toLowerCase().replaceAll(" ", "_");
+
+							result.innerHTML = template(
+								citeid, 
+								author_field.value, 
+								url_field.value, 
+								title, 
+								year, 
+								today.toISODate(),
+								url);
+						});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<main class="container">
+			<h1>Generátor BibTex citací pro webové stránky</h1>
+
+			<form>
+				<div class="grid">
+					<label for="cite">
+						ID citace
+						<small>(nepovinné)</small>
+						<input type="text" id="id_cite" name="cite" />
+					</label>
+					<label for="author">
+						Autor
+						<input type="text" id="id_author" name="author" required />
+					</label>
+				</div>
+				<label>
+					URL
+					<input type="url" id="id_url" name="url" required />
+				</label>
+				<button id="id_button" type="button">Vygenerovat</button>
+			</form>
+
+			<pre id="result"></pre>
+		</main>
+	</body>
+</html>
