@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://lesves.github.io/</loc>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/other/</loc>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/</loc>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/galaxy/</loc>
+        <lastmod>2024-02-01</lastmod>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/mol-dyn/</loc>
+        <lastmod>2025-02-01</lastmod>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/shobu/</loc>
+        <lastmod>2023-10-01</lastmod>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/stats/</loc>
+        <lastmod>2024-07-01</lastmod>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/tour/</loc>
+        <lastmod>2021-11-01</lastmod>
+    </url>
+    <url>
+        <loc>https://lesves.github.io/projects/toyrsa/</loc>
+        <lastmod>2024-09-01</lastmod>
+    </url>
+</urlset>
