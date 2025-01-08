@@ -7,7 +7,7 @@ slug = "other"
 
 ## My very satirical game about anarchocapitalism [Czech]
 
-I made [this game](/other/ancap/) as a birthday gift for my anarchocapitalist friends. It was made with Estúdio Vaca Roxa's [Generic Old West Pack](https://bakudas.itch.io/generic-oldwest-pack) and the music is [Scythe in Hell by XTaKeRuX](https://soundcloud.com/xtakerux/scythe-in-hell).
+I made [this game](/other/ancap/) as a Christmas gift for my anarchocapitalist friends. It was made with Estúdio Vaca Roxa's [Generic Old West Pack](https://bakudas.itch.io/generic-oldwest-pack) and the music is [Scythe in Hell by XTaKeRuX](https://soundcloud.com/xtakerux/scythe-in-hell).
 
 ## Video for my high school art class [Czech]
 
