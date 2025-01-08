@@ -1,0 +1,17 @@
+{% extends "base_aside.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block main %}
+    {{ section.content | safe }}
+
+    <table>
+        {% for page in section.pages %}
+        <tr>
+            <td>{{ page.year }}</td>
+            <td><a href="{% if page.extra.url %}{{ page.extra.url }}{% else %}{{ page.permalink }}{% endif %}">{{ page.title }}</a></td>
+            <td>{{ page.extra.lang|default(value="en") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

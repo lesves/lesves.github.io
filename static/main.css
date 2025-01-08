@@ -1,0 +1,110 @@
+:root {
+    --background-color: #ffffff;
+    --text-color: #333;
+    --border-color: #ccc;
+    --header-padding: 1rem 5vw;
+    --link-spacing: 1rem;
+    --aside-width: 20rem;
+    --photo-size: 15rem;
+    --main-padding: 1rem;
+    --content-width: 50rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+    max-width: calc(var(--aside-width) + var(--content-width) + 30rem);
+
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+header {
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: var(--header-padding);
+}
+
+header .name {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-variant-caps: small-caps;
+
+    width: var(--aside-width);
+}
+
+nav {
+    display: flex;
+}
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin: 0 var(--link-spacing);
+}
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    margin: 2vh 5vw;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+aside {
+    width: var(--aside-width);
+    display: flex;
+    flex-direction: column;
+}
+
+aside .photo {
+    width: var(--photo-size);
+    height: var(--photo-size);
+    border-radius: 50%;
+    margin-bottom: 1em;
+}
+
+aside a, aside span {
+    color: var(--text-color);
+    margin: 0.5em 0;
+    display: flex;
+    align-items: center;
+}
+
+aside span:has(pre) {
+    flex-wrap: wrap;
+}
+
+aside span pre {
+    padding: 0 2rem;
+    flex-basis: 100%;
+}
+
+aside a img, aside span img {
+    margin-right: 0.5em;
+    flex-shrink: 0;
+}
+
+section {
+    flex-grow: 1;
+    padding: var(--main-padding);
+}
+
+section p {
+    max-width: var(--content-width);
+}
+
+h1 {
+    font-variant-caps: small-caps;
+}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <header>
+        {% block header %}
+        <div class="name">Lukáš Veškrna</div>
+        <nav>
+            <a href="{{ config.base_url }}">About</a>
+            <a href="{{ get_url(path="@/projects/_index.md") }}">Projects</a>
+            <a href="{{ get_url(path="@/other.md") }}">Other</a>
+        </nav>
+        {% endblock %}
+    </header>
+    <main>
+        <aside>
+            {% block aside %}
+            <img class="photo" src="{{ get_url(path="photo.jpg") }}" alt="A photo of me">
+            <span>
+                <img src="{{ get_url(path="icons/map-pin.svg") }}" alt="location" />
+                Prague, Czech Republic
+            </span>
+            <span>
+                <img src="{{ get_url(path="icons/university.svg") }}" alt="university" />
+                MFF, Charles University
+            </span>
+            <a href="mailto:lukas.veskrna@gmail.com">
+                <img src="{{ get_url(path="icons/mail.svg") }}" alt="e-mail" />
+                lukas.veskrna@gmail.com
+            </a>
+            <a href="https://github.com/lesves" target="_blank">
+                <img src="{{ get_url(path="icons/github.svg") }}" alt="github" />
+                GitHub
+            </a>
+            <span>
+                <img src="{{ get_url(path="icons/lock.svg") }}" alt="pgp" />
+                <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/BD74D60D8117407702782396AC864FD0068967D5">PGP</a>
+                <pre>BD74 D60D 8117 4077 0278 
+2396 AC86 4FD0 0689 67D5</pre>
+            </span>
+            {% endblock%}
+        </aside>
+        <section>
+            {% block main %}
+            {% endblock %}
+        </section>
+    </main>
+{% endblock %}
