@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+    <style>
+        aside {
+            width: 0;
+        }
+        main section {
+            flex-grow: unset;
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block main %}
+    {{ page.content | safe }}
+{% endblock %}

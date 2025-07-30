@@ -10,10 +10,54 @@
 
 		<link rel="stylesheet" href="{{ get_url(path='main.css') }}" />
 
+		<!-- Katex -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                // • rendering keys, e.g.:
+                throwOnError : false
+                });
+            });
+        </script>
         <title>Lukáš Veškrna – {% block title %}{{ config.title }}{% endblock %}</title>
+
+        {% block extrahead %}
+        {% endblock %}
     </head>
     <body>
-    	{% block body %}
+        {% block body %}
+            <header>
+                {% block header %}
+                <div class="name">Lukáš Veškrna</div>
+                <nav>
+                    <a href="{{ config.base_url }}">About</a>
+                    <a href="{{ get_url(path="@/projects/_index.md") }}">Projects</a>
+                    <a href="{{ get_url(path="@/articles/_index.md") }}">Articles</a>
+                    <a href="{{ get_url(path="@/other.md") }}">Other</a>
+                </nav>
+                {% endblock %}
+            </header>
+            <main>
+                <aside>
+                    {% block aside %}
+                    {% endblock %}
+                </aside>
+                <section>
+                    {% block main %}
+                    {% endblock %}
+                </section>
+            </main>
     	{% endblock %}
     </body>
 </html>

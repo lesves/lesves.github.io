@@ -71,8 +71,13 @@ main {
     display: flex;
     flex-direction: row;
     margin: 2vh 5vw;
-    flex-wrap: wrap;
     justify-content: space-around;
+}
+
+@media (max-width: 600px) {
+    main {
+        flex-wrap: wrap;
+    }
 }
 
 aside {
