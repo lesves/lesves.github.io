@@ -10,6 +10,19 @@
     --content-width: 50rem;
 }
 
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #181a1b;
+        --text-color: #e6e6e6;
+        --border-color: #333;
+    }
+
+    .icon {
+        filter: invert(1);
+    }
+}
+
 * {
     box-sizing: border-box;
 }
@@ -75,7 +88,8 @@ aside .photo {
     margin-bottom: 1em;
 }
 
-aside a, aside span {
+aside a,
+aside span {
     color: var(--text-color);
     margin: 0.5em 0;
     display: flex;
@@ -91,7 +105,8 @@ aside span pre {
     flex-basis: 100%;
 }
 
-aside a img, aside span img {
+aside a img,
+aside span img {
     margin-right: 0.5em;
     flex-shrink: 0;
 }
@@ -107,4 +122,8 @@ section p {
 
 h1 {
     font-variant-caps: small-caps;
+}
+
+a {
+    color: #4477cc;
 }

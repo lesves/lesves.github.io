@@ -16,25 +16,25 @@
             {% block aside %}
             <img class="photo" src="{{ get_url(path="photo.jpg") }}" alt="A photo of me">
             <span>
-                <img src="{{ get_url(path="icons/map-pin.svg") }}" alt="location" />
+                <img src="{{ get_url(path="icons/map-pin.svg") }}" class="icon" alt="location" />
                 Prague, Czech Republic
             </span>
             <span>
-                <img src="{{ get_url(path="icons/university.svg") }}" alt="university" />
+                <img src="{{ get_url(path="icons/university.svg") }}" class="icon" alt="university" />
                 MFF, Charles University
             </span>
             <a href="mailto:lukas.veskrna@gmail.com">
-                <img src="{{ get_url(path="icons/mail.svg") }}" alt="e-mail" />
+                <img src="{{ get_url(path="icons/mail.svg") }}" class="icon" alt="e-mail" />
                 lukas.veskrna@gmail.com
             </a>
             <a href="https://github.com/lesves" target="_blank">
-                <img src="{{ get_url(path="icons/github.svg") }}" alt="github" />
+                <img src="{{ get_url(path="icons/github.svg") }}" class="icon" alt="github" />
                 GitHub
             </a>
             <span>
-                <img src="{{ get_url(path="icons/lock.svg") }}" alt="pgp" />
+                <img src="{{ get_url(path="icons/lock.svg") }}" class="icon" alt="pgp" />
                 <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/BD74D60D8117407702782396AC864FD0068967D5">PGP</a>
-                <pre>BD74 D60D 8117 4077 0278 
+                <pre>BD74 D60D 8117 4077 0278
 2396 AC86 4FD0 0689 67D5</pre>
             </span>
             {% endblock%}

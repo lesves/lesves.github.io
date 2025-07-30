@@ -1,9 +1,8 @@
 +++
-title = "Parallel-in-time Methods for Particle Simulations"
+title = "Parallel-in-time Methods for Particle Simulations (Project at TUM)"
 slug = "mol-dyn"
 date = "2025-02-01"
-render = false
 
 [extra]
-url = "https://github.com/lesves/mol-dyn"
+url = "https://github.com/lesves/mol-dyn/releases/download/submission/paper.pdf"
 +++
