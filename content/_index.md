@@ -7,7 +7,7 @@ title = "About"
 Hi, my name is Lukáš and this is my website. You can also call me Lukas or some other pronunciation :)
 
 ## What do I study?
-I study **computer science** because it is a lifelong passion of mine. I am working on my Bachelor's degree at the **Faculty of Mathematics and Physics at Charles University** in Prague. I also went for a one semester exchange program (Erasmus) at the **Technical University of Munich**.
+I study **computer science** because it is a lifelong passion of mine. I am working on my Master's degree in **Discrete Models and Algorithms** at the **Faculty of Mathematics and Physics at Charles University** in Prague. During my Bachelor's degree, I also went for a one semester exchange program (Erasmus) at the **Technical University of Munich**.
 
 I enjoy the theoretical parts of computer science the most. My favorite topics lie in the intersection of computer science, mathematics and physics. More specifically, I am interested in scientific computing, machine learning, numerical mathematics, algorithms and optimization.
 
