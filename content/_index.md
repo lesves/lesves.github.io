@@ -26,5 +26,6 @@ My friend had a nice idea to link his friends' websites, so I'm doing the same:
 - [Vítek K.](https://www.vitkolos.cz/)
 - [Janek H.](https://hartmaj2.github.io/)
 - [Matouš Š.](https://watous.github.io/)
+- [Honza Č.](https://cerny.matfyz.cz/)
 
 In no particular order. Let me know if I forgot somebody:)

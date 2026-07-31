@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://lesves.github.io/"
+base_url = "https://lv.skytoss.cz/"
 
 title = "Lukáš Veškrna"
 description = "Personal Website of Lukáš Veškrna"
