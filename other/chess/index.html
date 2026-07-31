@@ -1,0 +1,134 @@
+<!DOCTYPE html><html><head>
+        <meta charset="utf-8">
+        <title>Chess</title>
+
+        
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=Lato&amp;display=swap" rel="stylesheet">
+
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                font-family: "Lato", sans-serif;
+            }
+
+            #chessboard {
+                display: block; 
+                margin: 0 auto;
+                max-width: 90vw;
+                height: 100vh;
+            }
+
+            .tile.selected {
+                fill: rgb(140, 190, 95);
+            }
+
+            .tile.white.movable {
+                fill: rgb(191, 95, 140);
+            }
+
+            .tile.black.movable {
+                fill: rgb(171, 85, 120);
+            }
+
+            .tile.white {
+                fill: rgb(220, 190, 160);
+            }
+
+            .tile.black {
+                fill: rgb(150, 120, 110);
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .wrapper {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(40, 40, 40, 0.5);
+            }
+
+            .dialog {
+                font-size: 1.1rem;
+                text-align: center;
+
+                background: #d36196;
+                color: white;
+
+                border: 0.2rem solid rgb(191, 95, 140);
+
+                width: 30vw;
+                height: 25vh;
+                margin: 20vh auto;
+                padding: 2vh 2vw;
+            }
+
+            .dialog button {
+                display: block;
+
+                background: transparent;
+
+                padding: 1rem;
+                margin: 1rem auto;
+
+                border: 0.2rem solid white;
+                outline: none;
+
+                color: inherit;
+                font: inherit;
+                line-height: normal;
+            }
+
+            .dialog img {
+                margin: 6.5vh auto;
+                padding: 0.5vw;
+                width: 6vw;
+                height: auto;
+            }
+
+            .dialog img:hover {
+                background: rgb(171, 75, 120);
+            }
+
+            .sidebar {
+                width: 5vw;
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+            }
+
+            .sidebar button img {
+                width: 2rem;
+            }
+
+            @media only screen and (max-width: 800px) {
+                .sidebar {
+                    position: auto;
+                    width: auto;
+                    padding: 1rem;
+                    left: 0;
+                    display: block;
+                }
+
+                .sidebar button {
+                    width: auto;
+                    display: inline;
+                }
+            }
+        </style>
+    
+<link rel="preload" href="/other/chess/index-8c420bc300f5d7fb_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/other/chess/index-8c420bc300f5d7fb.js"></head>
+<body>
+<script type="module">import init from '/other/chess/index-8c420bc300f5d7fb.js';init('/other/chess/index-8c420bc300f5d7fb_bg.wasm');</script></body></html>
