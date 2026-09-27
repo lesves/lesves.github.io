@@ -10,7 +10,7 @@ slug = "other"
 - **Website**: [Hacker News](https://news.ycombinator.com/) — Always one technology trend before the rest of the world
 
 ## Deadly hangman [Czech]
-Due to "popular" request, I am also returning the link to my [deadly hangman game](https://lesves.github.io/other/deadly-hangman/) (it tries to find words that don't fit your guesses). 
+Due to "popular" request, I am also returning the link to my [deadly hangman game](/other/deadly-hangman/) (it tries to find words that don't fit your guesses). 
 Not an original idea of course, but was fun to make, and my friends enjoyed it. The wordlist is in Czech.
 
 ## My very satirical game about anarchocapitalism [Czech]

@@ -125,6 +125,10 @@ section p {
     max-width: var(--content-width);
 }
 
+section img {
+    max-width: 100%;
+}
+
 h1 {
     font-variant-caps: small-caps;
 }
